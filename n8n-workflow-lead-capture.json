@@ -1,0 +1,96 @@
+{
+  "name": "PT Dua Naga - Lead Capture",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "duanaga-lead"
+    },
+    {
+      "parameters": {
+        "url": "http://erp_duanaga_odoo:8069/xmlrpc/2/object",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQuery",
+        "method": "POST",
+        "body": [
+          {
+            "name": "db",
+            "value": "duanaga"
+          },
+          {
+            "name": "uid",
+            "value": 2
+          },
+          {
+            "name": "pwd",
+            "value": "admin"
+          },
+          {
+            "name": "model",
+            "value": "crm.lead"
+          },
+          {
+            "name": "method",
+            "value": "create"
+          },
+          {
+            "name": "args",
+            "value": "=[{\"name\": \"{{ $json.name }}\", \"contact_name\": \"{{ $json.contact_name }}\", \"email_from\": \"{{ $json.email }}\", \"phone\": \"{{ $json.phone }}\", \"description\": \"{{ $json.message }}\", \"type\": \"lead\"}]"
+          }
+        ],
+        "options": {}
+      },
+      "name": "Create Lead in Odoo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-response",
+        "responseBody": "={{ { \"status\": \"success\", \"lead_id\": $json.id } }}"
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [750, 300],
+      "webhookId": "lead-response"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create Lead in Odoo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Lead in Odoo": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": "duanaga-lead-workflow"
+}

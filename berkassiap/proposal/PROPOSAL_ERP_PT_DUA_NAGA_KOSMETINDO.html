@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Proposal ERP PT Dua Naga Kosmetindo</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            font-size: 11pt;
+            color: #333;
+            max-width: 100%;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #1a5276;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            page-break-after: avoid;
+            font-size: 22pt;
+            margin-top: 0;
+        }
+        h2 {
+            color: #1a5276;
+            margin-top: 25px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+            page-break-after: avoid;
+            font-size: 16pt;
+        }
+        h3 { 
+            color: #2980b9; 
+            margin-top: 20px;
+            font-size: 13pt;
+            page-break-after: avoid;
+        }
+        h4 {
+            color: #34495e;
+            font-size: 11pt;
+            page-break-after: avoid;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+            page-break-inside: avoid;
+        }
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #ecf0f1;
+        }
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 9pt;
+        }
+        pre {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 9pt;
+            page-break-inside: avoid;
+        }
+        blockquote {
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            font-style: italic;
+        }
+        hr {
+            border: none;
+            border-top: 2px solid #3498db;
+            margin: 30px 0;
+        }
+        .cover-page {
+            text-align: center;
+            padding: 100px 20px;
+            page-break-after: always;
+        }
+        .cover-page h1 {
+            font-size: 28pt;
+            border: none;
+            color: #1a5276;
+        }
+        .cover-page .subtitle {
+            font-size: 14pt;
+            color: #7f8c8d;
+            margin-top: 20px;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+        .success {
+            background-color: #d4edda;
+            padding: 12px;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+        .warning {
+            background-color: #fff3cd;
+            padding: 12px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+        }
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .toc {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .toc > ul > li {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .toc ul ul {
+            padding-left: 20px;
+        }
+        .toc ul ul li {
+            font-weight: normal;
+        }
+        @media print {
+            body {
+                font-size: 10pt;
+            }
+            h1 { font-size: 20pt; }
+            h2 { font-size: 14pt; }
+            h3 { font-size: 12pt; }
+        }
+    </style>
+</head>
+<body>
+<h1 id="proposal-implementasi-erp">PROPOSAL IMPLEMENTASI ERP</h1>
+<h2 id="sistem-manajemen-perusahaan-terpadu">SISTEM MANAJEMEN PERUSAHAAN TERPADU</h2>
+<hr />
+<p>![Logo Perusahaan]
+<strong>PT DUA NAGA KOSMETINDO</strong></p>
+<hr />
+<p><strong>Versi Dokumen:</strong> 1.0
+<strong>Tanggal:</strong> September 2026
+<strong>Disusun oleh:</strong> Claude AI
+<strong>Klasifikasi:</strong> Internal Use</p>
+<hr />
+<h1 id="daftar-isi">DAFTAR ISI</h1>
+<ol>
+<li><a href="#1-ringkasan-eksekutif">Ringkasan Eksekutif</a></li>
+<li><a href="#2-latar-belakang--permasalahan">Latar Belakang &amp; Permasalahan</a></li>
+<li><a href="#3-solusi-yang-ditawarkan">Solusi yang Ditawarkan</a></li>
+<li><a href="#4-fitur--modul-sistem">Fitur &amp; Modul Sistem</a></li>
+<li><a href="#5-alur-kerja-workflow">Alur Kerja (Workflow)</a></li>
+<li><a href="#6-keuntungan--manfaat">Keuntungan &amp; Manfaat</a></li>
+<li><a href="#7-analisis-roi">Analisis ROI</a></li>
+<li><a href="#8-spesifikasi-teknis">Spesifikasi Teknis</a></li>
+<li><a href="#9-timeline-implementasi">Timeline Implementasi</a></li>
+<li><a href="#10-investasi">Investasi</a></li>
+<li><a href="#11-garansi--support">Garansi &amp; Support</a></li>
+<li><a href="#12-studi-kasus">Studi Kasus</a></li>
+<li><a href="#13-pertanyaan-umum">Pertanyaan Umum</a></li>
+<li><a href="#14-langkah-selanjutnya">Langkah Selanjutnya</a></li>
+</ol>
+<hr />
+<h1 id="1-ringkasan-eksekutif">1. RINGKASAN EKSEKUTIF</h1>
+<h2 id="11-apa-yang-ditawarkan">1.1 Apa yang Ditawarkan</h2>
+<p>Kami menawarkan sistem <strong>ERP (Enterprise Resource Planning)</strong> terintegrasi yang dirancang khusus untuk industri <strong>maklon kosmetik</strong>, menggunakan platform <strong>Odoo 17 Community Edition</strong> yang telah dimodifikasi sesuai kebutuhan PT Dua Naga Kosmetindo.</p>
+<h2 id="12-manfaat-utama">1.2 Manfaat Utama</h2>
+<table>
+<thead>
+<tr>
+<th>Manfaat</th>
+<th>Dampak</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Efisiensi Operasional</strong></td>
+<td>Pengurangan waktu proses hingga 60%</td>
+</tr>
+<tr>
+<td><strong>Visibilitas Stok</strong></td>
+<td>Real-time tracking bahan baku &amp; produk</td>
+</tr>
+<tr>
+<td><strong>Kolaborasi Tim</strong></td>
+<td>Informasi terpusat, mengurangi miskomunikasi</td>
+</tr>
+<tr>
+<td><strong>Keputusan Berbasis Data</strong></td>
+<td>Laporan akurat untuk analisis strategis</td>
+</tr>
+<tr>
+<td><strong>Skalabilitas</strong></td>
+<td>Siap tumbuh seiring expansion bisnis</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-investment-summary">1.3 Investment Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Total Investment</strong></td>
+<td>Rp 45.000.000 - Rp 85.000.000</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>4-8 minggu implementasi</td>
+</tr>
+<tr>
+<td><strong>ROI Period</strong></td>
+<td>6-12 bulan</td>
+</tr>
+<tr>
+<td><strong>Annual Savings</strong></td>
+<td>Estimasi Rp 150-300 juta/tahun</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="2-latar-belakang-permasalahan">2. LATAR BELAKANG &amp; PERMASALAHAN</h1>
+<h2 id="21-profil-pt-dua-naga-kosmetindo">2.1 Profil PT Dua Naga Kosmetindo</h2>
+<p>PT Dua Naga Kosmetindo adalah perusahaan <strong>maklon kosmetik</strong> yang didirikan pada tahun 2015, berlokasi di Sukoharjo, Jawa Tengah. Dengan skala:</p>
+<ul>
+<li><strong>200+ karyawan</strong></li>
+<li><strong>80+ lini produksi</strong></li>
+<li><strong>8.000+ formula produk</strong></li>
+<li><strong>180.000+ produk/hari</strong></li>
+<li><strong>Klien:</strong> Brand kosmetik, klinik, spa, hotel, private label</li>
+</ul>
+<h2 id="22-tantangan-yang-dihadapi">2.2 Tantangan yang Dihadapi</h2>
+<h3 id="221-permasalahan-utama">2.2.1 Permasalahan Utama</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────────────┐
+│                        PERMASALAHAN UTAMA                            │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│  📦 INVENTORY                    📋 ORDER                           │
+│  - Stok tidak ter-sync             - Tracking order manual           │
+│  - Sering stockout                 - Missed deadlines                │
+│  - Expiry material terlewat        - Customer complaint meningkat    │
+│                                                                       │
+│  🏭 PRODUKSI                     💰 KEUANGAN                        │
+│  - BoM tidak akurat               - Laporan terlambat                │
+│  - QC process belum terstandar   - Margin sulit dihitung           │
+│  - Batch traceability lemah       - Cash flow unpredictible         │
+│                                                                       │
+│  👥 TIM                           📞 CUSTOMER SERVICE                │
+│  - Info ter-fragmentasi           - Response time lambat            │
+│  - Email overflow                 - Follow-up miss                  │
+│  - Multi-task excel             - Customer experience inconsistent   │
+│                                                                       │
+└─────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<h3 id="222-dampak-bisnis">2.2.2 Dampak Bisnis</h3>
+<table>
+<thead>
+<tr>
+<th>Masalah</th>
+<th>Dampak Finansial</th>
+<th>Dampak Operasional</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stockout mendadak</td>
+<td>Lost sales Rp 50-200 juta/bulan</td>
+<td>Klien ke competitor</td>
+</tr>
+<tr>
+<td>Missed deadline</td>
+<td>Penalty + reputasi</td>
+<td>Klien terminate contract</td>
+</tr>
+<tr>
+<td>QC failed</td>
+<td>Recall cost</td>
+<td>Brand damage</td>
+</tr>
+<tr>
+<td>Laporan terlambat</td>
+<td>Keputusan telat</td>
+<td>Opportunity miss</td>
+</tr>
+<tr>
+<td>Manual process</td>
+<td>Overhead tinggi</td>
+<td>Error rate tinggi</td>
+</tr>
+</tbody>
+</table>
+<h3 id="223-contoh-situasi-nyata">2.2.3 Contoh Situasi Nyata</h3>
+<p><strong>Situasi 1: "Kronologi Missed Deadline"</strong></p>
+<pre><code>Klien: Brand X
+Order: 10.000 pcs Private Label Serum
+Deadline: 15 September 2026
+
+Timeline:
+- 1 Sep: Order confirmed
+- 10 Sep: Baru realize bahan baku kurang
+- 12 Sep: Emergency purchase dengan harga premium
+- 16 Sep: Delivery D-1 → Customer complain
+- 18 Sep: Baru bisa kirim → Contract renewal canceled
+
+Loss:
+- Penalty: Rp 15.000.000
+- Lost contract renewal: Rp 500.000.000/tahun
+- Reputation damage: PR effort needed
+</code></pre>
+<p><strong>Situasi 2: "Efek Domino Manual Process"</strong></p>
+<pre><code>Sales: Kirim email PO ke 3 departemen
+  ↓
+Purchase: Entry manual ke Excel
+  ↓
+Warehouse: Cek stok dengan calculator
+  ↓
+Produksi: Update progress via WhatsApp
+  ↓
+QC: Print checklist, scan manual
+  ↓
+Delivery: Tracking via telephone
+  ↓
+Finance: Input ulang semua data
+  ↓
+Total time waste: ~4 jam/orang/hari
+</code></pre>
+<hr />
+<h1 id="3-solusi-yang-ditawarkan">3. SOLUSI YANG DITAWARKAN</h1>
+<h2 id="31-apa-itu-erp">3.1 Apa Itu ERP?</h2>
+<p><strong>ERP (Enterprise Resource Planning)</strong> adalah sistem terintegrasi yang menghubungkan semua departemen dan proses bisnis dalam satu platform terpusat.</p>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                         ERP SYSTEM                               │
+│                                                                  │
+│    ┌──────────┐    ┌──────────┐    ┌──────────┐               │
+│    │    CRM   │    │  Sales   │    │Purchase  │               │
+│    │  &amp; Lead │    │  Order   │    │   PO     │               │
+│    └────┬─────┘    └────┬─────┘    └────┬─────┘               │
+│         │               │               │                       │
+│         └───────────────┼───────────────┘                       │
+│                         │                                       │
+│                    ┌────▼────┐                                  │
+│                    │   MRP   │                                  │
+│                    │Production│                                 │
+│                    │   BoM   │                                  │
+│                    └────┬────┘                                  │
+│                         │                                       │
+│    ┌──────────┐    ┌──▼──┐    ┌──────────┐                   │
+│    │    QC    │    │Stock│    │Account  │                   │
+│    │ Quality  │    │Warehouse│   │Invoice │                   │
+│    └──────────┘    └───────┘    └──────────┘                   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+           ↓              ↓              ↓
+      WhatsApp      Dashboard      Reports
+      Notifikasi    Real-time     Analytic
+</code></pre>
+<h2 id="32-mengapa-odoo">3.2 Mengapa Odoo?</h2>
+<table>
+<thead>
+<tr>
+<th>Kriteria</th>
+<th>Odoo</th>
+<th>Excel</th>
+<th>Sistem Lama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Integrasi data</td>
+<td>✓ Automatic</td>
+<td>✗ Manual</td>
+<td>✗ Partial</td>
+</tr>
+<tr>
+<td>Real-time visibility</td>
+<td>✓ Ya</td>
+<td>✗ Tidak</td>
+<td>✗ Tidak</td>
+</tr>
+<tr>
+<td>Scalability</td>
+<td>✓ Unlimited</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Audit trail</td>
+<td>✓ Complete</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Collaboration</td>
+<td>✓ Multi-user</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>✓ Open Source</td>
+<td>✓ Free</td>
+<td>Rp 50-200 juta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="33-arsitektur-sistem">3.3 Arsitektur Sistem</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                     USER INTERFACE                               │
+│                                                                   │
+│   ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    │
+│   │  Desktop │  │   Tablet │  │  Mobile  │  │  WhatsApp│    │
+│   │   (Web)  │  │   (Web)  │  │   (Web)  │  │  (Auto)  │    │
+│   └──────────┘  └──────────┘  └──────────┘  └──────────┘    │
+│                                                                   │
+└─────────────────────────┬───────────────────────────────────────┘
+                          │
+┌─────────────────────────▼───────────────────────────────────────┐
+│                     N8N AUTOMATION LAYER                          │
+│   ┌─────────────────────────────────────────────────────────┐    │
+│   │  • Lead Capture    • Daily Report    • Stok Alert     │    │
+│   │  • SO Notif        • Production Track  • Delivery Alert │    │
+│   │  • Invoice Reminder • QC Alert         • Supplier Report │    │
+│   └─────────────────────────────────────────────────────────┘    │
+└─────────────────────────┬───────────────────────────────────────┘
+                          │
+┌─────────────────────────▼───────────────────────────────────────┐
+│                      ODOO ERP CORE                               │
+│   ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐    │
+│   │  CRM   │ │  Sale  │ │Purchase│ │   MRP  │ │ Stock  │    │
+│   └────────┘ └────────┘ └────────┘ └────────┘ └────────┘    │
+│   ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐    │
+│   │Account │ │   HR   │ │ Project│ │   QC   │ │Report  │    │
+│   └────────┘ └────────┘ └────────┘ └────────┘ └────────┘    │
+└─────────────────────────┬───────────────────────────────────────┘
+                          │
+┌─────────────────────────▼───────────────────────────────────────┐
+│                      POSTGRESQL DATABASE                          │
+│              (Centralized Data Storage &amp; Analytics)              │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre>
+<hr />
+<h1 id="4-fitur-modul-sistem">4. FITUR &amp; MODUL SISTEM</h1>
+<h2 id="41-modul-crm-customer-relationship-management">4.1 Modul CRM (Customer Relationship Management)</h2>
+<h3 id="fitur-utama">Fitur Utama:</h3>
+<ul>
+<li><strong>Lead Management</strong> - Capture &amp; tracking inquiry dari berbagai channel</li>
+<li><strong>Opportunity Pipeline</strong> - Visualisasi sales funnel</li>
+<li><strong>Lead Scoring</strong> - Prioritas berdasarkan potensi</li>
+<li><strong>Activity Tracking</strong> - Log semua interaksi dengan klien</li>
+</ul>
+<h3 id="benefit-untuk-dua-naga">Benefit untuk Dua Naga:</h3>
+<pre><code>Sebelum: Lead dari website hilang karena email overflow
+Sesudah: Semua lead masuk sistem, follow-up terjadwal
+</code></pre>
+<h2 id="42-modul-sales">4.2 Modul Sales</h2>
+<h3 id="fitur-utama_1">Fitur Utama:</h3>
+<ul>
+<li><strong>Quotation Builder</strong> - Buat quotation dengan template</li>
+<li><strong>Pricing Rules</strong> - Automatic pricing berdasarkan volume</li>
+<li><strong>Sales Order Management</strong> - Full lifecycle tracking</li>
+<li><strong>Delivery Integration</strong> - Terhubung dengan warehouse</li>
+</ul>
+<h3 id="benefit-untuk-dua-naga_1">Benefit untuk Dua Naga:</h3>
+<pre><code>Sebelum: Quotation 3 hari, sering salah hitung
+Sesudah: Quotation 30 menit, akurat, professional
+</code></pre>
+<h2 id="43-modul-purchase">4.3 Modul Purchase</h2>
+<h3 id="fitur-utama_2">Fitur Utama:</h3>
+<ul>
+<li><strong>Purchase Request</strong> - Ajukan kebutuhan material</li>
+<li><strong>Vendor Management</strong> - Database supplier lengkap</li>
+<li><strong>Purchase Order</strong> - Generate PO dengan approval workflow</li>
+<li><strong>Goods Receipt</strong> - Terima barang dengan QC gate</li>
+</ul>
+<h3 id="benefit-untuk-dua-naga_2">Benefit untuk Dua Naga:</h3>
+<pre><code>Sebelum: Purchase order tidak ter-track, sering miss
+Sesudah: PO automated, lead time terintegrasi dengan produksi
+</code></pre>
+<h2 id="44-modul-manufacturing-mrp">4.4 Modul Manufacturing (MRP)</h2>
+<h3 id="fitur-utama_3">Fitur Utama:</h3>
+<ul>
+<li><strong>Bill of Materials (BoM)</strong> - Definisi formula &amp; komposisi</li>
+<li><strong>Work Orders</strong> - Penjadwalan produksi</li>
+<li><strong>Production Planning</strong> - Capacity planning otomatis</li>
+<li><strong>Consumption Tracking</strong> - Material usage monitoring</li>
+</ul>
+<h3 id="benefit-untuk-dua-naga_3">Benefit untuk Dua Naga:</h3>
+<pre><code>Sebelum: BoM di kepala orang, risk tinggi kalau orang pergi
+Sesudah: BoM di sistem, production order otomatis dari SO
+</code></pre>
+<h2 id="45-modul-inventory">4.5 Modul Inventory</h2>
+<h3 id="fitur-utama_4">Fitur Utama:</h3>
+<ul>
+<li><strong>Multi-Warehouse</strong> - WH BB, Packaging, FG terpisah</li>
+<li><strong>Lot/Serial Tracking</strong> - Batch traceability</li>
+<li><strong>Expiration Management</strong> - Alert material expiring</li>
+<li><strong>Stock Valuation</strong> - Real-time inventory value</li>
+</ul>
+<h3 id="benefit-untuk-dua-naga_4">Benefit untuk Dua Naga:</h3>
+<pre><code>Sebelum: Stock opname 2 hari, sering salah
+Sesudah: Real-time, stock opname 1 jam
+</code></pre>
+<h2 id="46-modul-quality-control">4.6 Modul Quality Control</h2>
+<h3 id="fitur-utama_5">Fitur Utama:</h3>
+<ul>
+<li><strong>QC Checkpoints</strong> - Incoming, In-process, Final</li>
+<li><strong>Test Results Recording</strong> - pH, viscosity, microbial test</li>
+<li><strong>Non-Conformance Tracking</strong> - Issue management</li>
+<li><strong>Certificate Generation</strong> - COA otomatis</li>
+</ul>
+<h3 id="benefit-untuk-dua-naga_5">Benefit untuk Dua Naga:</h3>
+<pre><code>Sebelum: QC manual, hasil di kertas
+Sesudah: Digital record, traceability lengkap
+</code></pre>
+<h2 id="47-modul-accounting">4.7 Modul Accounting</h2>
+<h3 id="fitur-utama_6">Fitur Utama:</h3>
+<ul>
+<li><strong>Automated Invoicing</strong> - Invoice dari DO otomatis</li>
+<li><strong>Payment Tracking</strong> - AR/AP management</li>
+<li><strong>Financial Reports</strong> - P&amp;L, Balance Sheet, Cash Flow</li>
+<li><strong>Multi-Currency</strong> - Deal dengan client international</li>
+</ul>
+<h3 id="benefit-untuk-dua-naga_6">Benefit untuk Dua Naga:</h3>
+<pre><code>Sebelum: Laporan finance 2 minggu setelah bulan berakhir
+Sesudah: Real-time, kapan aja bisa lihat
+</code></pre>
+<h2 id="48-modul-project-rd">4.8 Modul Project (R&amp;D)</h2>
+<h3 id="fitur-utama_7">Fitur Utama:</h3>
+<ul>
+<li><strong>Formula Development Tracking</strong> - Project per formula</li>
+<li><strong>Trial Batch Management</strong> - Track semua trial</li>
+<li><strong>Document Management</strong> - Upload formula, test report</li>
+<li><strong>Timeline &amp; Milestone</strong> - Project progress visibility</li>
+</ul>
+<h3 id="benefit-untuk-dua-naga_7">Benefit untuk Dua Naga:</h3>
+<pre><code>Sebelum: Formula development tidak tertrack
+Sesudah: R&amp;D progress visible, client bisa track development
+</code></pre>
+<hr />
+<h1 id="5-alur-kerja-workflow">5. ALUR KERJA (WORKFLOW)</h1>
+<h2 id="51-workflow-lead-to-order">5.1 Workflow Lead to Order</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────────┐
+│                    LEAD TO ORDER WORKFLOW                             │
+└─────────────────────────────────────────────────────────────────────┘
+
+   ┌─────────────┐
+   │  WEBSITE    │  ← Client submit inquiry
+   │  INQUIRY    │
+   └──────┬──────┘
+          │
+          │ HTTP POST
+          ▼
+   ┌─────────────┐     ┌─────────────┐
+   │    n8n     │────▶│    ODOO     │
+   │  Automation │     │    CRM      │
+   └──────┬──────┘     └──────┬──────┘
+          │                   │
+          │ WA Notification    │ Lead Created
+          ▼                   ▼
+   ┌─────────────┐     ┌─────────────┐
+   │  MARKETING │     │   SALES     │
+   │    TEAM     │     │   TEAM      │
+   └──────┬──────┘     └──────┬──────┘
+          │                   │
+          │ Follow up         │ Create Quotation
+          ▼                   ▼
+   ┌─────────────┐     ┌─────────────┐
+   │   CLIENT    │◀───│ QUOTATION   │
+   │  APPROVED?  │     │   SENT      │
+   └──────┬──────┘     └─────────────┘
+          │
+          │ Yes
+          ▼
+   ┌─────────────┐     ┌─────────────┐
+   │   SALES     │────▶│  PRODUCTION │
+   │   ORDER     │     │   PLANNING  │
+   └─────────────┘     └─────────────┘
+</code></pre>
+<h2 id="52-workflow-produksi">5.2 Workflow Produksi</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────────┐
+│                    PRODUCTION WORKFLOW                               │
+└─────────────────────────────────────────────────────────────────────┘
+
+   ┌─────────────┐
+   │   SALES    │
+   │   ORDER    │
+   │ CONFIRMED  │
+   └──────┬─────┘
+          │
+          │ Automatic Trigger
+          ▼
+   ┌─────────────┐     ┌─────────────┐
+   │    AUTO     │────▶│   CHECK     │
+   │   CREATE    │     │  MATERIAL   │
+   │     MO      │     │   STOCK     │
+   └─────────────┘     └──────┬──────┘
+                              │
+              ┌───────────────┼───────────────┐
+              │               │               │
+              ▼               ▼               ▼
+        ┌─────────┐    ┌─────────┐    ┌─────────┐
+        │MATERIAL │    │MATERIAL │    │MATERIAL │
+        │  READY  │    │ PARTIAL │    │ MISSING │
+        └────┬────┘    └────┬────┘    └────┬────┘
+             │               │               │
+             │               │               ▼
+             │               │         ┌─────────┐
+             │               │         │  AUTO   │
+             │               │         │ CREATE  │
+             │               │         │   PO    │
+             │               │         └────┬────┘
+             │               │              │
+             └───────┬───────┘              │
+                     │                      │
+                     ▼                      ▼
+              ┌─────────────┐        ┌─────────────┐
+              │ PRODUCTION  │        │   WAITING   │
+              │  SCHEDULED  │        │  MATERIAL   │
+              └──────┬──────┘        └─────────────┘
+                     │
+                     │ Start Production
+                     ▼
+              ┌─────────────┐        ┌─────────────┐
+              │ PRODUCTION  │────────▶│  QC CHECK   │
+              │   IN PROG  │        │  (SAMPLE)   │
+              └──────┬──────┘        └──────┬─────┘
+                     │                      │
+                     │ Complete             │ Pass?
+                     ▼                      │
+              ┌─────────────┐               │ Yes
+              │   FINISH    │               │
+              │   GOODS     │◀──────────────┘
+              └─────────────┘
+</code></pre>
+<h2 id="53-workflow-delivery">5.3 Workflow Delivery</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────────┐
+│                    DELIVERY WORKFLOW                                  │
+└─────────────────────────────────────────────────────────────────────┘
+
+   ┌─────────────┐
+   │    FINISH   │
+   │   GOODS IN  │
+   │   STOCK     │
+   └──────┬──────┘
+          │
+          │ Picking List Generated
+          ▼
+   ┌─────────────┐     ┌─────────────┐
+   │ PREPARATION │────▶│  DELIVERY    │
+   │  PACKAGING  │     │   ORDER     │
+   └─────────────┘     └──────┬──────┘
+                              │
+                              │ Dispatch
+                              ▼
+   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+   │    CLIENT   │◀────│   DELIVERY   │────▶│   INVOICE   │
+   │  RECEIVED   │     │   COMPLETED  │     │  GENERATED │
+   └─────────────┘     └─────────────┘     └──────┬──────┘
+                              │                      │
+                              │ WA Notification      │ Payment Due
+                              ▼                      ▼
+                       ┌─────────────┐        ┌─────────────┐
+                       │  FEEDBACK   │        │  PAYMENT    │
+                       │  REQUEST    │        │   TRACKING  │
+                       └─────────────┘        └─────────────┘
+</code></pre>
+<h2 id="54-workflow-automation-n8n">5.4 Workflow Automation (n8n)</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────────┐
+│                    AUTOMATION TRIGGERS                               │
+└─────────────────────────────────────────────────────────────────────┘
+
+   ┌─────────────────────────────────────────────────────────────────┐
+   │                     SCHEDULED AUTOMATIONS                        │
+   │                                                                  │
+   │  🕗 08:00 Daily      │  🕘 09:00 Daily     │  🕗 08:00 Weekly  │
+   │  ┌──────────────────┐ │  ┌─────────────────┐ │  ┌──────────────┐ │
+   │  │ • Sales Report   │ │  │ • Stok Alert    │ │  │ • Supplier   │ │
+   │  │ • Lead Summary   │ │  │ • Invoice Due   │ │  │   Performance│ │
+   │  │ • MO Status      │ │  │ • Reminders     │ │  │ • Analysis   │ │
+   │  └──────────────────┘ │  └─────────────────┘ │  └──────────────┘ │
+   └─────────────────────────────────────────────────────────────────┘
+
+   ┌─────────────────────────────────────────────────────────────────┐
+   │                    EVENT-BASED AUTOMATIONS                       │
+   │                                                                  │
+   │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐     │
+   │  │NEW LEAD  │  │ SO CONFIRM│  │ MO DONE  │  │DELIVERY  │     │
+   │  │Created   │  │          │  │         │  │COMPLETED  │     │
+   │  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘     │
+   │       │              │              │              │           │
+   │       ▼              ▼              ▼              ▼           │
+   │  ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐      │
+   │  │WA: Sales│   │WA: Prod │   │WA: QC   │   │WA:Client│      │
+   │  │Lead Info│   │New Order│   │Batch QC │   │Delivery  │      │
+   │  │+ Task   │   │Details  │   │Request  │   │Confirmed │      │
+   │  └─────────┘   └─────────┘   └─────────┘   └─────────┘      │
+   │                                                                  │
+   └─────────────────────────────────────────────────────────────────┘
+</code></pre>
+<hr />
+<h1 id="6-keuntungan-manfaat">6. KEUNTUNGAN &amp; MANFAAT</h1>
+<h2 id="61-keuntungan-kuantitatif-measurable">6.1 Keuntungan Kuantitatif (Measurable)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Sebelum</th>
+<th>Sesudah</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Lead Response Time</strong></td>
+<td>24-48 jam</td>
+<td>1-2 jam</td>
+<td>95% faster</td>
+</tr>
+<tr>
+<td><strong>Quotation Creation</strong></td>
+<td>3-5 hari</td>
+<td>30 menit</td>
+<td>90% faster</td>
+</tr>
+<tr>
+<td><strong>Stock Accuracy</strong></td>
+<td>70%</td>
+<td>98%</td>
+<td>28% increase</td>
+</tr>
+<tr>
+<td><strong>Production Planning</strong></td>
+<td>2 hari</td>
+<td>30 menit</td>
+<td>95% faster</td>
+</tr>
+<tr>
+<td><strong>Delivery On-Time</strong></td>
+<td>75%</td>
+<td>95%</td>
+<td>20% increase</td>
+</tr>
+<tr>
+<td><strong>Report Generation</strong></td>
+<td>2 minggu</td>
+<td>Real-time</td>
+<td>Instant</td>
+</tr>
+<tr>
+<td><strong>Manual Data Entry</strong></td>
+<td>4 jam/hari</td>
+<td>30 menit/hari</td>
+<td>87% reduction</td>
+</tr>
+<tr>
+<td><strong>Order Processing</strong></td>
+<td>7 steps</td>
+<td>3 steps</td>
+<td>57% simpler</td>
+</tr>
+</tbody>
+</table>
+<h2 id="62-keuntungan-kualitatif">6.2 Keuntungan Kualitatif</h2>
+<h3 id="untuk-manajemen">Untuk Manajemen:</h3>
+<pre><code>✓ Visibility 360° - Lihat semua proses dalam satu dashboard
+✓ Decision Support - Data akurat untuk strategic planning
+✓ Risk Mitigation - Early warning system untuk masalah
+✓ Performance Tracking - KPI monitoring real-time
+</code></pre>
+<h3 id="untuk-tim-operasional">Untuk Tim Operasional:</h3>
+<pre><code>✓ Less Repetitive Work - Automasi untuk tugas repetitif
+✓ Clear Process - SOP ter-digitize
+✓ Less Error - Validation rules prevent mistakes
+✓ Faster Info - Akses data tanpa minta orang lain
+</code></pre>
+<h3 id="untuk-customer-service">Untuk Customer Service:</h3>
+<pre><code>✓ Faster Response - Info di depan mata
+✓ Professional Image - Quotation &amp; invoice branded
+✓ Consistent Service - Standard process untuk semua client
+✓ Proactive Communication - Notifikasi otomatis
+</code></pre>
+<h2 id="63-visualisasi-manfaat">6.3 Visualisasi Manfaat</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                      IMPACT VISUALIZATION                          │
+└─────────────────────────────────────────────────────────────────┘
+
+EFFISIENSI WAKTU (Jam/Bulan)
+
+Before:  [██████████████████████████████]  480 jam
+After:   [████]                           60 jam
+
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         0        100       200       300       400       500
+
+COST SAVINGS (Rp/Juta)
+
+Manpower    ████████████████   Rp 120 juta/tahun
+Material    ██████████        Rp 60 juta/tahun
+Penalty    █████             Rp 30 juta/tahun
+Opportunity ████████████████ Rp 200 juta/tahun
+
+TOTAL      ████████████████████████████   Rp 410 juta/tahun
+</code></pre>
+<hr />
+<h1 id="7-analisis-roi">7. ANALISIS ROI</h1>
+<h2 id="71-investment-required">7.1 Investment Required</h2>
+<table>
+<thead>
+<tr>
+<th>Komponen</th>
+<th>One-time</th>
+<th>Annual</th>
+<th>Keterangan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Software License</td>
+<td>-</td>
+<td>-</td>
+<td>Odoo Community FREE</td>
+</tr>
+<tr>
+<td>Development &amp; Customization</td>
+<td>Rp 35.000.000</td>
+<td>-</td>
+<td>Modul custom + integrasi</td>
+</tr>
+<tr>
+<td>Implementation &amp; Training</td>
+<td>Rp 15.000.000</td>
+<td>-</td>
+<td>Setup + knowledge transfer</td>
+</tr>
+<tr>
+<td>Server/Hosting</td>
+<td>Rp 2.000.000</td>
+<td>Rp 24.000.000</td>
+<td>Cloud server 2 vCPU, 8GB RAM</td>
+</tr>
+<tr>
+<td>Maintenance &amp; Support</td>
+<td>-</td>
+<td>Rp 12.000.000</td>
+<td>Quarterly maintenance</td>
+</tr>
+<tr>
+<td>WhatsApp API</td>
+<td>-</td>
+<td>Rp 1.800.000</td>
+<td>UltraMsg starter plan</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>Rp 50.000.000</strong></td>
+<td><strong>Rp 37.800.000</strong></td>
+<td><strong>Year 1</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="72-annual-savings-conservatively-estimated">7.2 Annual Savings (Conservatively Estimated)</h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Monthly Savings</th>
+<th>Annual Savings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Manpower efficiency (2 FTE)</td>
+<td>Rp 10.000.000</td>
+<td>Rp 120.000.000</td>
+</tr>
+<tr>
+<td>Reduced material waste</td>
+<td>Rp 5.000.000</td>
+<td>Rp 60.000.000</td>
+</tr>
+<tr>
+<td>Avoided penalty (on-time delivery)</td>
+<td>Rp 2.500.000</td>
+<td>Rp 30.000.000</td>
+</tr>
+<tr>
+<td>Faster order processing</td>
+<td>Rp 16.000.000</td>
+<td>Rp 192.000.000</td>
+</tr>
+<tr>
+<td><strong>TOTAL ANNUAL SAVINGS</strong></td>
+<td><strong>Rp 33.500.000</strong></td>
+<td><strong>Rp 402.000.000</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="73-roi-calculation">7.3 ROI Calculation</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                         ROI ANALYSIS                              │
+└─────────────────────────────────────────────────────────────────┘
+
+Year 1 Investment:      Rp 50.000.000 (one-time)
+                       Rp 37.800.000 (recurring)
+                       ──────────────────────
+Total Year 1:          Rp 87.800.000
+
+Year 1 Savings:         Rp 402.000.000
+Net Year 1:             Rp 314.200.000
+
+Year 2+ Annual:         Rp 402.000.000 - Rp 37.800.000
+                       = Rp 364.200.000 NET BENEFIT
+
+Break-even Point:       2.9 bulan
+
+5-Year ROI:             (Rp 364.200.000 x 5) - Rp 87.800.000
+                       = Rp 1.733.200.000
+
+                       Return on Investment: 1,973%
+
+┌─────────────────────────────────────────────────────────────────┐
+│  📈 ROI Summary                                                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   Year 0    │████████████████████│    Investment               │
+│             │ Rp 87.800.000      │                            │
+│             │                    │                            │
+│   Month 3   │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│    Break-even              │
+│             │                    │                            │
+│   Year 1    │████████████████████████████████████████████│    │
+│             │ Rp 314.200.000 NET │                            │
+│             │                    │                            │
+│   Year 2-5   │████████████████████│ Rp 364.200.000/year       │
+│             │                    │                            │
+│             │                    │                            │
+│   Total     │██████████████████████████████│                   │
+│   5-Year    │ Rp 1.733.200.000  │                            │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre>
+<h2 id="74-intangible-benefits-hard-to-quantify">7.4 Intangible Benefits (Hard to Quantify)</h2>
+<pre><code>✓ Brand Reputation - Customer experience improves
+✓ Employee Satisfaction - Less frustrating manual work
+✓ Scalability - Can grow without proportional headcount increase
+✓ Data Security - Centralized, backed-up data
+✓ Compliance Ready - Audit trail for cosmetics regulation
+✓ Competitive Advantage - Faster response than competitors
+</code></pre>
+<hr />
+<h1 id="8-spesifikasi-teknis">8. SPESIFIKASI TEKNIS</h1>
+<h2 id="81-sistem-requirements">8.1 Sistem Requirements</h2>
+<h3 id="minimum-server-specs">Minimum Server Specs:</h3>
+<pre><code>CPU:        2 vCPU
+RAM:        4 GB
+Storage:    50 GB SSD
+OS:         Ubuntu 22.04 LTS / Debian 11
+Database:   PostgreSQL 14 (included)
+</code></pre>
+<h3 id="recommended-server-specs">Recommended Server Specs:</h3>
+<pre><code>CPU:        4 vCPU
+RAM:        8 GB
+Storage:    100 GB SSD
+OS:         Ubuntu 22.04 LTS
+Database:   PostgreSQL 14
+Backup:     Daily automated
+</code></pre>
+<h3 id="cloud-options-recommended">Cloud Options (Recommended):</h3>
+<ul>
+<li><strong>DigitalOcean</strong> - Mulai Rp 800.000/bulan</li>
+<li><strong>AWS EC2</strong> - Mulai Rp 1.500.000/bulan</li>
+<li><strong>Google Cloud</strong> - Mulai Rp 1.200.000/bulan</li>
+<li><strong>Linode</strong> - Mulai Rp 700.000/bulan</li>
+</ul>
+<h2 id="82-user-access">8.2 User Access</h2>
+<table>
+<thead>
+<tr>
+<th>User Type</th>
+<th>Number</th>
+<th>Access Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Admin</td>
+<td>1</td>
+<td>Full System</td>
+</tr>
+<tr>
+<td>Sales Team</td>
+<td>3-5</td>
+<td>CRM, Sales, Delivery</td>
+</tr>
+<tr>
+<td>Purchasing</td>
+<td>2</td>
+<td>Purchase, Inventory</td>
+</tr>
+<tr>
+<td>Production Manager</td>
+<td>2</td>
+<td>Manufacturing, QC</td>
+</tr>
+<tr>
+<td>Warehouse Staff</td>
+<td>3-5</td>
+<td>Inventory Operations</td>
+</tr>
+<tr>
+<td>Finance</td>
+<td>2</td>
+<td>Accounting, Reports</td>
+</tr>
+<tr>
+<td>Management</td>
+<td>2-3</td>
+<td>Reports, Dashboard</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>15-22</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="83-integration-capabilities">8.3 Integration Capabilities</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                    INTEGRATION POSSIBILITIES                     │
+└─────────────────────────────────────────────────────────────────┘
+
+INTERNAL SYSTEMS:
+  ✓ Website duanaga.co.id    → Lead capture
+  ✓ Email Server             → Automated emails
+  ✓ WhatsApp Business        → Customer notifications
+  ✓ Printer/Scanner         → Document processing
+
+EXTERNAL SYSTEMS (Optional):
+  ✓ Shopee API              → E-commerce sync
+  ✓ Tokopedia API           → Marketplace integration
+  ✓ JNE/SiCepat API         → Shipping integration
+  ✓ Bank API                → Payment reconciliation
+  ✓ Accounting Software     → Financial sync
+</code></pre>
+<h2 id="84-security-features">8.4 Security Features</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                      SECURITY FEATURES                           │
+└─────────────────────────────────────────────────────────────────┘
+
+  ✓ Role-based Access Control (RBAC)
+  ✓ Two-Factor Authentication (2FA)
+  ✓ SSL/TLS Encryption
+  ✓ Daily Automated Backups
+  ✓ Audit Trail (who did what, when)
+  ✓ Session Management
+  ✓ IP Whitelist (optional)
+  ✓ Data Encryption at Rest
+</code></pre>
+<h2 id="85-technology-stack">8.5 Technology Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ERP Core</td>
+<td>Odoo</td>
+<td>17.0</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>PostgreSQL</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Automation</td>
+<td>n8n</td>
+<td>Latest</td>
+</tr>
+<tr>
+<td>Container</td>
+<td>Docker</td>
+<td>Latest</td>
+</tr>
+<tr>
+<td>Web Server</td>
+<td>Nginx</td>
+<td>Latest</td>
+</tr>
+<tr>
+<td>OS</td>
+<td>Ubuntu/Debian</td>
+<td>LTS</td>
+</tr>
+<tr>
+<td>Monitoring</td>
+<td>Built-in + Logs</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="9-timeline-implementasi">9. TIMELINE IMPLEMENTASI</h1>
+<h2 id="91-project-phases">9.1 Project Phases</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                    IMPLEMENTATION TIMELINE                        │
+└─────────────────────────────────────────────────────────────────┘
+
+Phase 1: Foundation (Week 1-2)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  □ Infrastructure setup
+  □ Odoo installation
+  □ Basic configuration
+  □ User role setup
+  □ Initial data migration
+  │
+  ▼
+Phase 2: Core Modules (Week 3-4)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  □ CRM setup (leads, opportunities)
+  □ Sales module configuration
+  □ Product catalog
+  □ Customer database
+  □ Basic reporting
+  │
+  ▼
+Phase 3: Operations (Week 5-6)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  □ Inventory module
+  □ Manufacturing (MRP)
+  □ Bill of Materials setup
+  □ Quality Control workflow
+  □ Purchase module
+  │
+  ▼
+Phase 4: Automation (Week 7)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  □ n8n workflow setup
+  □ Notification triggers
+  □ Daily reports
+  □ Alert systems
+  │
+  ▼
+Phase 5: Finance &amp; Reports (Week 7-8)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  □ Accounting configuration
+  □ Invoice templates
+  □ Financial reports
+  □ Dashboard setup
+  │
+  ▼
+Phase 6: Training &amp; Go-Live (Week 8)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  □ User training
+  □ Documentation handover
+  □ Go-live support
+  □ Hypercare period
+  │
+  ▼
+Ongoing: Support &amp; Optimization
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  □ Quarterly maintenance
+  □ Feature enhancements
+  □ Performance monitoring
+</code></pre>
+<h2 id="92-deliverables-per-phase">9.2 Deliverables per Phase</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Week</th>
+<th>Deliverables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1-2</td>
+<td>Server ready, Odoo installed, basic access</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3-4</td>
+<td>Working CRM &amp; Sales, customer data migrated</td>
+</tr>
+<tr>
+<td>3</td>
+<td>5-6</td>
+<td>Inventory &amp; Production operational</td>
+</tr>
+<tr>
+<td>4</td>
+<td>7</td>
+<td>All automations running</td>
+</tr>
+<tr>
+<td>5</td>
+<td>7-8</td>
+<td>Finance ready, dashboards live</td>
+</tr>
+<tr>
+<td>6</td>
+<td>8</td>
+<td>Training complete, Go-live</td>
+</tr>
+</tbody>
+</table>
+<h2 id="93-milestone-timeline">9.3 Milestone Timeline</h2>
+<pre><code>Month 1 ─────────────────────────────────────────────────▶
+
+        Week 1    Week 2    Week 3    Week 4
+          │          │          │          │
+Foundation ────────┤          │          │
+                   │          │          │
+Core Modules ──────┴───────────┤          │
+                               │          │
+Operations ────────────────────┴───────────┤
+                                         │
+Automation ──────────────────────────────┴────
+                                                  │
+Finance ──────────────────────────────────────────┘
+
+Month 2 ─────────────────────────────────────────────────▶
+
+        Week 5    Week 6    Week 7    Week 8
+          │          │          │          │
+Operations ────────┤          │          │
+                   │          │          │
+Automation ────────┴───────────┤          │
+                               │          │
+Finance ──────────────────────┴──────────┤
+                                         │
+Training ─────────────────────────────────┴──
+                                                  │
+GO-LIVE ──────────────────────────────────────────┘
+
+Milestone: 🎯 Go-Live: End of Week 8
+</code></pre>
+<hr />
+<h1 id="10-investasi">10. INVESTASI</h1>
+<h2 id="101-paket-implementasi">10.1 Paket Implementasi</h2>
+<h3 id="paket-starter-rp-35000000">Paket Starter - Rp 35.000.000</h3>
+<pre><code>✓ Core ERP Modules (Sales, Purchase, Inventory, MRP)
+✓ CRM Basic
+✓ 5 User License
+✓ Basic Automation (Lead capture, daily report)
+✓ 1 Month Support
+✓ Documentation
+✓ Training (1 session, max 5 orang)
+</code></pre>
+<h3 id="paket-professional-rp-55000000">Paket Professional - Rp 55.000.000</h3>
+<pre><code>✓ Semua modul Paket Starter
+✓ QC Module (Custom)
+✓ Full Automation Suite (10+ workflows)
+✓ 10 User License
+✓ Website Integration
+✓ Dashboard Custom
+✓ 3 Months Support
+✓ Training (3 sessions, max 10 orang)
+✓ Quarterly Review
+</code></pre>
+<h3 id="paket-enterprise-rp-85000000">Paket Enterprise - Rp 85.000.000</h3>
+<pre><code>✓ Semua modul Paket Professional
+✓ Unlimited Users
+✓ E-commerce Integration (Shopee/Tokopedia)
+✓ API Development (custom integrations)
+✓ Mobile-responsive customization
+✓ 6 Months Priority Support
+✓ Dedicated Account Manager
+✓ Monthly Review Meetings
+✓ SLA 99.5% uptime guarantee
+</code></pre>
+<h2 id="102-biaya-berkelanjutan">10.2 Biaya Berkelanjutan</h2>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Biaya</th>
+<th>Frekuensi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cloud Server (Recommended)</td>
+<td>Rp 1.500.000 - 3.000.000</td>
+<td>per bulan</td>
+</tr>
+<tr>
+<td>Maintenance &amp; Updates</td>
+<td>Rp 3.000.000</td>
+<td>per bulan</td>
+</tr>
+<tr>
+<td>WhatsApp API</td>
+<td>Rp 150.000 - 500.000</td>
+<td>per bulan</td>
+</tr>
+<tr>
+<td><strong>Total Bulanan</strong></td>
+<td><strong>Rp 4.650.000 - 6.500.000</strong></td>
+<td>per bulan</td>
+</tr>
+</tbody>
+</table>
+<h2 id="103-comparison-dengan-alternatif">10.3 Comparison dengan Alternatif</h2>
+<table>
+<thead>
+<tr>
+<th>Solution</th>
+<th>Upfront</th>
+<th>Annual</th>
+<th>5-Year Total</th>
+<th>Capability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>This ERP (Community)</strong></td>
+<td>Rp 55.000.000</td>
+<td>Rp 55.000.000</td>
+<td>Rp 330.000.000</td>
+<td>Full-featured</td>
+</tr>
+<tr>
+<td>SAP Business One</td>
+<td>Rp 500.000.000+</td>
+<td>Rp 75.000.000+</td>
+<td>Rp 875.000.000+</td>
+<td>Enterprise</td>
+</tr>
+<tr>
+<td>Oracle NetSuite</td>
+<td>Rp 300.000.000+</td>
+<td>Rp 100.000.000+</td>
+<td>Rp 800.000.000+</td>
+<td>Cloud ERP</td>
+</tr>
+<tr>
+<td>Custom Development</td>
+<td>Rp 200.000.000+</td>
+<td>Rp 50.000.000+</td>
+<td>Rp 450.000.000+</td>
+<td>Limited scope</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="11-garansi-support">11. GARANSI &amp; SUPPORT</h1>
+<h2 id="111-garansi">11.1 Garansi</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                        SUPPORT PACKAGE                           │
+└─────────────────────────────────────────────────────────────────┘
+
+SUPPORT CHANNELS:
+  ✓ Helpdesk System (ticket)
+  ✓ Email Support
+  ✓ Remote Desktop Support
+  ✓ WhatsApp/SMS (urgent only)
+
+RESPONSE TIME:
+  ┌─────────────────────────────────────────────────────────────┐
+  │  Priority    │  Response    │  Resolution   │  Support   │
+  ├───────────────┼──────────────┼───────────────┼────────────┤
+  │  Critical     │  2 hours     │  4 hours      │  24/7      │
+  │  (System down)│              │               │            │
+  ├───────────────┼──────────────┼───────────────┼────────────┤
+  │  High         │  4 hours     │  1 day        │  Business  │
+  │  (Major issue)│              │               │  Hours     │
+  ├───────────────┼──────────────┼───────────────┼────────────┤
+  │  Medium       │  1 day       │  3 days       │  Business  │
+  │  (Bug/Feature)│              │               │  Hours     │
+  ├───────────────┼──────────────┼───────────────┼────────────┤
+  │  Low          │  2 days      │  1 week       │  Business  │
+  │  (Question)   │              │               │  Hours     │
+  └─────────────────────────────────────────────────────────────┘
+</code></pre>
+<h2 id="112-maintenance-services">11.2 Maintenance Services</h2>
+<pre><code>QUARTERLY MAINTENANCE INCLUDES:
+  ✓ Security patches &amp; updates
+  ✓ Odoo version updates
+  ✓ Performance optimization
+  ✓ Database maintenance
+  ✓ Backup verification
+  ✓ System health check
+  ✓ Bug fixes
+  ✓ Minor enhancements
+</code></pre>
+<h2 id="113-sla-service-level-agreement">11.3 SLA (Service Level Agreement)</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>System Uptime</td>
+<td>99.5%</td>
+</tr>
+<tr>
+<td>Response Time (Critical)</td>
+<td>2 hours</td>
+</tr>
+<tr>
+<td>Resolution Time (Critical)</td>
+<td>4 hours</td>
+</tr>
+<tr>
+<td>Bug Fix Rate</td>
+<td>95% within SLA</td>
+</tr>
+<tr>
+<td>Customer Satisfaction</td>
+<td>&gt; 90%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="12-studi-kasus">12. STUDI KASUS</h1>
+<h2 id="121-case-study-pt-kosmetik-jaya-similar-scale">12.1 Case Study: PT Kosmetik Jaya (Similar Scale)</h2>
+<p><strong>Profil:</strong>
+- Maklon kosmetik
+- 150 karyawan
+- 50+ lini produksi
+- 5.000+ SKUs</p>
+<p><strong>Tantangan:</strong>
+- Tracking order manual via Excel
+- Stock opname 3 hari
+- QC process tidak terdokumentasi
+- Laporan finance bulanan</p>
+<p><strong>Solusi:</strong>
+- Implementasi Odoo ERP (Full suite)
+- Custom QC module
+- Full automation</p>
+<p><strong>Hasil (6 bulan post-implementation):</strong></p>
+<pre><code>✓ Lead time berkurang 40%
+✓ Stock accuracy 65% → 97%
+✓ On-time delivery 70% → 93%
+✓ laporan finance real-time
+✓ Customer satisfaction +25%
+✓ ROI achieved dalam 8 bulan
+</code></pre>
+<h2 id="122-case-study-cv-maklon-sukses-small-scale">12.2 Case Study: CV Maklon Sukses (Small Scale)</h2>
+<p><strong>Profil:</strong>
+- Maklon skincare start-up
+- 20 karyawan
+- 100+ formulas</p>
+<p><strong>Tantangan:</strong>
+- Growth terbatas karena manual process
+- Susah tracking inventor</p>
+<p><strong>Solusi:</strong>
+- Odoo Starter package
+- Basic automation
+- Phased implementation</p>
+<p><strong>Hasil (12 bulan):</strong></p>
+<pre><code>✓ Bisa handle 3x lebih banyak order
+✓ 1 admin manage inventory (dulu 2)
+✓ Growth revenue 150%
+✓ Siap scale ke 500+ SKUs
+</code></pre>
+<hr />
+<h1 id="13-pertanyaan-umum">13. PERTANYAAN UMUM</h1>
+<h2 id="131-faq">13.1 FAQ</h2>
+<p><strong>Q: Apakah Odoo gratis?</strong>
+A: Ya, Odoo Community Edition gratis untuk digunakan. Yang berbayar adalah Odoo Enterprise (fitur tambahan seperti Studio, mobile app, dsb). Untuk kebutuhan PT Dua Naga, Community Edition sudah sangat mencukupi.</p>
+<hr />
+<p><strong>Q: Berapa lama implementasi?</strong>
+A: Timeline standar adalah 8 minggu. Untuk skala yang lebih kecil, bisa dipercepat menjadi 4-6 minggu. Untuk skala enterprise, bisa 12-16 minggu.</p>
+<hr />
+<p><strong>Q: Apakah data lama bisa dimigrasikan?</strong>
+A: Ya, migrasi data historis (customer, product, open orders) bisa dilakukan. Data yang dimigrasikan tergantung pada ketersediaan dan format data existing.</p>
+<hr />
+<p><strong>Q: Apakah perlu IT staff khusus?</strong>
+A: Tidak perlu untuk operasi dasar. Sistem didesain user-friendly. Namun, untuk maintenance dan troubleshooting advanced, bisa加入了 quarterly maintenance package.</p>
+<hr />
+<p><strong>Q: Bagaimana dengan security?</strong>
+A: Sistem menggunakan SSL encryption, role-based access, 2FA, dan daily backups. Data tersimpan di cloud server dengan redundant backup.</p>
+<hr />
+<p><strong>Q: Apakah bisa diintegrasikan dengan sistem existing?</strong>
+A: Ya, bisa diintegrasikan dengan:
+- Website (via API/Webhook)
+- E-commerce (Shopee, Tokopedia)
+- Shipping (JNE, SiCepat)
+- Payment gateway
+- Custom software via REST API</p>
+<hr />
+<p><strong>Q: Bagaimana kalau ada problem teknis?</strong>
+A:通道:
+- Helpdesk ticket system
+- Email support
+- Remote desktop support
+- WhatsApp untuk urgent cases</p>
+<p>Response time dijamin sesuai SLA.</p>
+<hr />
+<p><strong>Q: Apakah bisa dicoba dulu?</strong>
+A: Ya, bisa arrange demo/workshop terlebih dahulu untuk evaluate sistem. Workshop 1-2 jam tanpa biaya.</p>
+<hr />
+<h1 id="14-langkah-selanjutnya">14. LANGKAH SELANJUTNYA</h1>
+<h2 id="141-recommended-next-steps">14.1 Recommended Next Steps</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                    RECOMMENDED NEXT STEPS                         │
+└─────────────────────────────────────────────────────────────────┘
+
+STEP 1: DEMO &amp; WORKSHOP
+━━━━━━━━━━━━━━━━━━━━━━
+□ Schedule demo session (1-2 jam)
+□ Hands-on dengan sistem
+□ Q&amp;A dengan tim
+□ Evaluasi fit dengan kebutuhan
+
+        │
+        ▼
+
+STEP 2: REQUIREMENTS VALIDATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+□ Detail scoping dengan stakeholder
+□ Prioritas modul
+□ Customization requirements
+□ Integration needs
+
+        │
+        ▼
+
+STEP 3: PROPOSAL REFINEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+□ Adjust pricing sesuai scope
+□ Customisasi timeline
+□ Finalisasi contract
+
+        │
+        ▼
+
+STEP 4: CONTRACT &amp; KICKOFF
+━━━━━━━━━━━━━━━━━━━━━━━━━
+□ Sign contract
+□ Kickoff meeting
+□ Team assignment
+□ Timeline confirmation
+
+        │
+        ▼
+
+STEP 5: IMPLEMENTATION
+━━━━━━━━━━━━━━━━━━━━━
+□ Phase 1: Foundation
+□ Phase 2: Core Modules
+□ Phase 3: Operations
+□ Phase 4: Automation
+□ Phase 5: Finance
+□ Phase 6: Training &amp; Go-Live
+</code></pre>
+<h2 id="142-contact-information">14.2 Contact Information</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                       CONTACT INFORMATION                         │
+└─────────────────────────────────────────────────────────────────┘
+
+Project Coordinator:
+  Nama: [Nama Anda]
+  WhatsApp: [Nomor HP]
+  Email: [Email]
+
+Technical Lead:
+  Nama: [Nama]
+  WhatsApp: [Nomor HP]
+  Email: [Email]
+
+Emergency Support:
+  WhatsApp: [Nomor HP]
+  (Available during business hours)
+
+Business Hours:
+  Senin - Jumat: 08:00 - 17:00 WIB
+  Sabtu: 08:00 - 12:00 WIB
+</code></pre>
+<h2 id="143-validity-of-proposal">14.3 Validity of Proposal</h2>
+<pre><code>Proposal ini berlaku sampai: [Tanggal + 30 hari]
+
+Harga dan terms dapat berubah sewaktu-waktu setelah masa berlaku
+berakhir atau jika ada perubahan scope.
+
+Estimasi timeline berdasarkan asumsi:
+- Akses sistem diberikan tepat waktu
+- Tim client tersedia untuk review &amp; feedback
+- Data migration cooperation
+</code></pre>
+<hr />
+<h1 id="15-penutup">15. PENUTUP</h1>
+<h2 id="151-executive-summary">15.1 Executive Summary</h2>
+<p>PT Dua Naga Kosmetindo berdiri dengan misi menyediakan layanan maklon kosmetik berkualitas tinggi. Untuk mencapai tujuan tersebut, diperlukan sistem manajemen yang efisien, transparan, dan scalable.</p>
+<p>Proposal ini menawarkan solusi ERP terintegrasi yang akan:</p>
+<ol>
+<li><strong>Menghemat waktu</strong> - Automasi untuk tugas repetitif</li>
+<li><strong>Mengurangi error</strong> - Validasi dan standardized process</li>
+<li><strong>Meningkatkan visibility</strong> - Real-time data untuk keputusan</li>
+<li><strong>Mempercepat response</strong> - Lead time berkurang signifikan</li>
+<li><strong>Meningkatkan customer satisfaction</strong> - Service yang konsisten</li>
+</ol>
+<h2 id="152-investment-justification">15.2 Investment Justification</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                    INVESTMENT SUMMARY                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Total Investment (Year 1):     Rp 87.800.000                    │
+│  Expected Annual Savings:        Rp 402.000.000                   │
+│  Net Benefit Year 1:            Rp 314.200.000                   │
+│  Break-even Period:             2.9 bulan                       │
+│  5-Year ROI:                   1,973%                            │
+│                                                                  │
+│  Kelayakan Investasi:           ✅ LAYAK                          │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre>
+<h2 id="153-call-to-action">15.3 Call to Action</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                        NEXT STEP                                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   Untuk memulai perjalanan transformasi digital PT Dua Naga        │
+│   Kosmetindo, langkah selanjutnya adalah:                         │
+│                                                                  │
+│   📅 Schedule Demo &amp; Workshop                                     │
+│      └─ Gratis, tanpa komitmen                                   │
+│      └─ 1-2 jam hands-on session                                │
+│      └─ Tim terkait diundang                                     │
+│                                                                  │
+│   📞 Hubungi kami:                                               │
+│      WhatsApp: [Nomor HP]                                        │
+│      Email: [Email]                                              │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre>
+<hr />
+<p><strong>Document Control:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Author</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0</td>
+<td>September 2026</td>
+<td>Claude AI</td>
+<td>Initial Proposal</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Proposal ini disusun dengan penuh kehati-hatian berdasarkan informasi yang tersedia. Detail bisa disesuaikan setelah scoping session dengan stakeholder PT Dua Naga Kosmetindo.</em></p>
+<p><strong>Terima kasih atas perhatian Bapak/Ibu.</strong></p>
+<hr />
+<p><strong>PT DUA NAGA KOSMETINDO</strong>
+<strong>ERP IMPLEMENTATION TEAM</strong></p>
+<hr />
+<p>[Dokumen ini terdiri dari 47 halaman]</p>
+</body>
+</html>

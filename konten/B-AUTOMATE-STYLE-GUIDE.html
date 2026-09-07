@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B-Automate — Brand Style Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#091540;
+    --blue:#1B2CC1;
+    --mid:#7692FF;
+    --sky:#ABD2FA;
+    --ink:#1B1F3B;
+    --paper:#e9ebf2;
+    --line:rgba(9,21,64,0.14);
+    --font-heading:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:56px 56px;
+  }
+  .wrap{max-width:1040px; margin:0 auto; padding:0 40px;}
+
+  /* corner marks */
+  .plate{
+    position:relative;
+    background:#fff;
+    border:1px solid var(--line);
+  }
+  .plate::before, .plate::after,
+  .plate .c2::before, .plate .c2::after{
+    content:"";
+    position:absolute;
+    width:14px; height:14px;
+    border:2px solid var(--navy);
+  }
+  .plate::before{top:-1px; left:-1px; border-right:none; border-bottom:none;}
+  .plate::after{top:-1px; right:-1px; border-left:none; border-bottom:none;}
+  .plate .c2::before{bottom:-1px; left:-1px; border-right:none; border-top:none;}
+  .plate .c2::after{bottom:-1px; right:-1px; border-left:none; border-top:none;}
+
+  /* Cover */
+  .cover{
+    padding:96px 40px 72px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#fff 0%, var(--paper) 100%);
+  }
+  .cover .logo-mark{
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:28px;
+  }
+  .cover .logo-mark img{
+    width:80px; height:80px;
+    object-fit:contain;
+  }
+  .cover .logo-text{
+    font-family:var(--font-heading);
+    font-weight:700;
+    font-size:2.5rem;
+    color:var(--navy);
+  }
+  .cover .kicker{
+    font-family:var(--font-mono);
+    font-size:0.78rem;
+    letter-spacing:0.02em;
+    color:var(--blue);
+    margin-bottom:14px;
+  }
+  .cover h1{
+    font-family:var(--font-heading);
+    font-weight:700;
+    font-size:clamp(2.4rem, 6vw, 3.6rem);
+    margin:0 0 14px;
+    color:var(--navy);
+  }
+  .cover p.sub{
+    font-family:var(--font-body);
+    font-size:1.05rem;
+    color:#4b5170;
+    max-width:560px;
+    margin:0 auto;
+    line-height:1.6;
+  }
+
+  section{padding:72px 0; border-bottom:1px solid var(--line);}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+    margin-bottom:36px;
+  }
+  .section-num{
+    font-family:var(--font-mono);
+    font-size:0.85rem;
+    color:var(--blue);
+    white-space:nowrap;
+  }
+  h2{
+    font-family:var(--font-heading);
+    font-weight:600;
+    font-size:1.7rem;
+    margin:0;
+    color:var(--navy);
+  }
+  .lede{
+    font-family:var(--font-body);
+    font-size:1rem;
+    line-height:1.7;
+    color:#4b5170;
+    max-width:640px;
+    margin:-20px 0 36px;
+  }
+
+  /* Logo */
+  .logo-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+  }
+  .logo-card{padding:30px 20px 18px; text-align:center;}
+  .logo-card .logo-demo{
+    width:88px; height:88px;
+    margin:0 auto 14px;
+    background:var(--navy);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:var(--font-heading);
+    font-weight:700;
+    font-size:1.5rem;
+    color:#fff;
+  }
+  .logo-card.on-navy{background:var(--navy);}
+  .logo-card.on-navy .logo-demo{background:#fff; color:var(--navy);}
+  .logo-card.on-blue .logo-demo{background:var(--blue);}
+  .logo-card .label{font-family:var(--font-body); font-size:0.8rem; font-weight:500; color:var(--ink);}
+  .logo-card.on-navy .label{color:#fff;}
+  .logo-card .use{font-family:var(--font-mono); font-size:0.68rem; color:var(--blue); margin-top:4px;}
+  .logo-card.on-navy .use{color:var(--sky);}
+
+  .clearspace{
+    margin-top:32px;
+    padding:36px;
+    display:flex;
+    align-items:center;
+    gap:36px;
+  }
+  .clearspace .diagram{
+    flex:0 0 auto;
+    width:180px; height:180px;
+    position:relative;
+    border:1.5px dashed var(--blue);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .clearspace .diagram .logo-icon{width:88px; height:88px; font-size:1.5rem; border-radius:8px;}
+  .clearspace p{font-family:var(--font-body); font-size:0.92rem; line-height:1.7; color:#4b5170; margin:0;}
+
+  .rules{
+    margin-top:32px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  .rule-card{padding:22px 24px;}
+  .rule-card .tag{
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    padding:2px 8px;
+    display:inline-block;
+    margin-bottom:10px;
+  }
+  .rule-card.dont .tag{color:#a03434; border:1px solid #a03434;}
+  .rule-card.do .tag{color:var(--blue); border:1px solid var(--blue);}
+  .rule-card ul{margin:0; padding-left:18px; font-family:var(--font-body); font-size:0.9rem; line-height:1.8; color:#4b5170;}
+
+  /* Colors */
+  .swatch-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+  }
+  .swatch{overflow:hidden;}
+  .swatch .fill{height:118px;}
+  .swatch .info{padding:16px 18px 20px;}
+  .swatch .name{font-family:var(--font-heading); font-weight:600; font-size:0.95rem; margin-bottom:2px;}
+  .swatch .role{font-family:var(--font-body); font-size:0.75rem; color:#6a6f8f; margin-bottom:12px;}
+  .swatch .hex{font-family:var(--font-mono); font-size:0.82rem; color:var(--navy);}
+  .swatch .rgb{font-family:var(--font-mono); font-size:0.72rem; color:#8a8fb0; margin-top:2px;}
+
+  .ratio-bar{
+    margin-top:32px;
+    padding:26px 28px;
+  }
+  .ratio-bar .track{
+    display:flex; height:14px; width:100%; overflow:hidden; margin-bottom:14px;
+  }
+  .ratio-bar .track div:nth-child(1){background:var(--navy); flex:0 0 40%;}
+  .ratio-bar .track div:nth-child(2){background:var(--blue); flex:0 0 30%;}
+  .ratio-bar .track div:nth-child(3){background:var(--mid); flex:0 0 15%;}
+  .ratio-bar .track div:nth-child(4){background:var(--sky); flex:0 0 15%;}
+  .ratio-bar p{font-family:var(--font-body); font-size:0.85rem; color:#6a6f8f; margin:0;}
+
+  /* Typography */
+  .type-role{
+    padding:28px 30px;
+    margin-bottom:20px;
+    display:grid;
+    grid-template-columns:200px 1fr;
+    gap:24px;
+    align-items:center;
+  }
+  .type-role .meta .name{font-family:var(--font-heading); font-weight:600; font-size: 1rem; color:var(--navy);}
+  .type-role .meta .role{font-family:var(--font-mono); font-size:0.72rem; color:var(--blue); margin-top:6px;}
+  .type-role .meta .weights{font-family:var(--font-body); font-size:0.72rem; color:#8a8fb0; margin-top:10px;}
+  .type-role .sample{font-size:1.9rem; color:var(--ink); line-height:1.2;}
+  .type-role.heading-sample .sample{font-family:'Space Grotesk'; font-weight:700;}
+  .type-role.body-sample .sample{font-family:'Inter'; font-weight:400; font-size:1.15rem;}
+  .type-role.sans-sample .sample{font-family:'Inter'; font-weight:500; font-size:1.15rem;}
+  .type-role.mono-sample .sample{font-family:'JetBrains Mono'; font-weight:400; font-size:1.15rem;}
+
+  .scale-table{width:100%; border-collapse:collapse; margin-top:8px;}
+  .scale-table th{
+    text-align:left;
+    font-family:var(--font-body);
+    font-size:0.72rem;
+    font-weight:600;
+    color:#8a8fb0;
+    padding:10px 14px;
+    border-bottom:1px solid var(--line);
+  }
+  .scale-table td{
+    padding:16px 14px;
+    border-bottom:1px solid var(--line);
+    font-family:var(--font-body);
+    font-size:0.85rem;
+    vertical-align:middle;
+  }
+  .scale-table td.el{font-weight:600; color:var(--navy);}
+  .scale-table td.px{font-family:var(--font-mono); font-size:0.78rem; color:var(--blue);}
+  .scale-table td.note{color:#8a8fb0; font-size:0.78rem;}
+  .flag{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:0.68rem;
+    color:#a06a1c;
+    border:1px solid #a06a1c;
+    padding:1px 7px;
+    margin-left:8px;
+  }
+
+  /* Components */
+  .comp-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px;}
+  .comp-card{padding:24px 22px;}
+  .comp-card .k{font-family:var(--font-mono); font-size:0.68rem; color:var(--blue); margin-bottom:10px;}
+  .comp-card h3{font-family:var(--font-heading); font-size:1rem; font-weight:600; color:var(--navy); margin:0 0 10px;}
+  .comp-card p{font-family:var(--font-body); font-size:0.85rem; line-height:1.65; color:#4b5170; margin:0;}
+
+  .btn-demo{
+    display:inline-block;
+    background:var(--blue);
+    color:#fff;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:0.875rem;
+    padding:12px 22px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+  }
+  .btn-demo.ghost{
+    background:transparent;
+    color:var(--navy);
+    border:1px solid var(--blue);
+  }
+
+  .badge-demo{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:0.7rem;
+    padding:4px 10px;
+    border:1px solid rgba(171,210,250,0.5);
+    color:var(--sky);
+    background:transparent;
+    border-radius:4px;
+  }
+
+  .stat-demo{
+    text-align:center;
+    padding:20px;
+  }
+  .stat-demo .num{
+    font-family:var(--font-heading);
+    font-weight:700;
+    font-size:2rem;
+    color:#fff;
+  }
+  .stat-demo .lbl{
+    font-family:var(--font-mono);
+    font-size:0.66rem;
+    color:var(--sky);
+    margin-top:4px;
+  }
+
+  footer{
+    padding:40px 0 60px;
+    text-align:center;
+  }
+  footer p{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    color:#8a8fb0;
+  }
+
+  @media (max-width:760px){
+    .wrap{padding:0 20px;}
+    .logo-grid, .swatch-grid{grid-template-columns:1fr 1fr;}
+    .rules, .comp-grid{grid-template-columns:1fr;}
+    .type-role{grid-template-columns:1fr;}
+    .clearspace{flex-direction:column; text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="cover">
+    <div class="logo-mark">
+      <img src="assets/logo-navy.png" alt="B-Automate Logo">
+      <span class="logo-text">B-Automate</span>
+    </div>
+    <div class="kicker">BRAND STYLE GUIDE / v1.0</div>
+    <h1>B-Automate</h1>
+    <p class="sub">Panduan identitas visual untuk menjaga konsistensi logo, warna, dan tipografi di seluruh materi B-Automate — mulai dari poster sampai deck presentasi.</p>
+  </div>
+
+  <div class="wrap">
+
+    <!-- LOGO -->
+    <section id="logo">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <h2>Logo</h2>
+      </div>
+      <p class="lede">Logo B-Automate menyatukan angka "3" dengan tiga roda gigi di dalamnya — merepresentasikan otomasi dan sistem yang bekerja presisi. Gunakan versi yang kontrasnya paling jelas terhadap latar.</p>
+
+      <div class="logo-grid">
+        <div class="plate logo-card"><div class="c2"></div>
+          <img src="assets/logo-navy.png" alt="Logo Navy" style="width:88px; height:88px; object-fit:contain; margin-bottom:14px;">
+          <div class="label">Primary</div>
+          <div class="use">latar terang</div>
+        </div>
+        <div class="plate logo-card on-blue"><div class="c2"></div>
+          <img src="assets/logo-blue.png" alt="Logo Blue" style="width:88px; height:88px; object-fit:contain; margin-bottom:14px;">
+          <div class="label">Monokrom Biru</div>
+          <div class="use">aksen / watermark</div>
+        </div>
+        <div class="plate logo-card"><div class="c2"></div>
+          <img src="assets/logo-black.png" alt="Logo Black" style="width:88px; height:88px; object-fit:contain; margin-bottom:14px;">
+          <div class="label">Monokrom Hitam</div>
+          <div class="use">cetak / grayscale</div>
+        </div>
+        <div class="plate logo-card on-navy"><div class="c2"></div>
+          <img src="assets/logo-white.png" alt="Logo White" style="width:88px; height:88px; object-fit:contain; margin-bottom:14px;">
+          <div class="label">Reverse</div>
+          <div class="use">latar gelap</div>
+        </div>
+      </div>
+
+      <div class="plate clearspace"><div class="c2"></div>
+        <div class="diagram">
+          <img src="assets/logo-navy.png" alt="Logo" style="width:88px; height:88px; object-fit:contain;">
+        </div>
+        <p>Beri ruang kosong di semua sisi logo minimal setinggi gear (X). Jangan tempatkan teks, foto, atau elemen lain di dalam area ini. Untuk digital, jaga tinggi logo minimal 24px agar detail gear tetap terbaca; untuk cetak, minimal 12mm.</p>
+      </div>
+
+      <div class="rules">
+        <div class="plate rule-card do"><div class="c2"></div>
+          <span class="tag">LAKUKAN</span>
+          <ul>
+            <li>Pakai versi reverse (putih) di atas latar gelap</li>
+            <li>Jaga proporsi asli — kunci rasio saat resize</li>
+            <li>Gunakan warna solid resmi di atas</li>
+          </ul>
+        </div>
+        <div class="plate rule-card dont"><div class="c2"></div>
+          <span class="tag">HINDARI</span>
+          <ul>
+            <li>Mengubah warna gear di luar palet resmi</li>
+            <li>Menambahkan drop shadow, outline, atau efek 3D</li>
+            <li>Meregangkan logo secara tidak proporsional</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLOR -->
+    <section id="color">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <h2>Palet Warna</h2>
+      </div>
+      <p class="lede">Empat warna inti membentuk gradasi dari navy pekat ke sky pucat — navy untuk otoritas dan kepercayaan, biru untuk aksi, sky untuk aksen teknikal.</p>
+
+      <div class="swatch-grid">
+        <div class="plate swatch"><div class="c2"></div>
+          <div class="fill" style="background:#091540;"></div>
+          <div class="info">
+            <div class="name">Deep Navy</div>
+            <div class="role">Primary — teks, header, footer</div>
+            <div class="hex">#091540</div>
+            <div class="rgb">rgb(9, 21, 64)</div>
+          </div>
+        </div>
+        <div class="plate swatch"><div class="c2"></div>
+          <div class="fill" style="background:#1B2CC1;"></div>
+          <div class="info">
+            <div class="name">Signal Blue</div>
+            <div class="role">Aksi — CTA, button, link</div>
+            <div class="hex">#1B2CC1</div>
+            <div class="rgb">rgb(27, 44, 193)</div>
+          </div>
+        </div>
+        <div class="plate swatch"><div class="c2"></div>
+          <div class="fill" style="background:#7692FF;"></div>
+          <div class="info">
+            <div class="name">Mid Blue</div>
+            <div class="role">Sekunder — highlight, accent</div>
+            <div class="hex">#7692FF</div>
+            <div class="rgb">rgb(118, 146, 255)</div>
+          </div>
+        </div>
+        <div class="plate swatch"><div class="c2"></div>
+          <div class="fill" style="background:#ABD2FA;"></div>
+          <div class="info">
+            <div class="name">Sky Blue</div>
+            <div class="role">Aksen — badge, label, mono</div>
+            <div class="hex">#ABD2FA</div>
+            <div class="rgb">rgb(171, 210, 250)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="plate ratio-bar"><div class="c2"></div>
+        <div class="track"><div></div><div></div><div></div><div></div></div>
+        <p>Rasio pemakaian yang disarankan per halaman: Navy ~40% (teks & struktur utama), Signal Blue ~30% (aksi & aksen), Mid Blue ~15%, Sky Blue ~15%. Jangan pakai dua warna aksen (Blue & Sky) bersebelahan dalam rasio yang sama besar — biarkan salah satu memimpin.</p>
+      </div>
+    </section>
+
+    <!-- TYPOGRAPHY -->
+    <section id="type">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <h2>Tipografi</h2>
+      </div>
+      <p class="lede">Tiga typeface, tiga peran berbeda — jangan dipertukarkan. Ketiganya sudah di-import via Google Fonts.</p>
+
+      <div class="plate type-role heading-sample"><div class="c2"></div>
+        <div class="meta">
+          <div class="name">Space Grotesk</div>
+          <div class="role">--font-heading · headlines</div>
+          <div class="weights">weight 500 / 600 / 700</div>
+        </div>
+        <div class="sample">Otomatisasi. Optimalisasi. Perluas.</div>
+      </div>
+
+      <div class="plate type-role body-sample"><div class="c2"></div>
+        <div class="meta">
+          <div class="name">Inter</div>
+          <div class="role">--font-body · paragraphs</div>
+          <div class="weights">weight 400 / 500 / 600</div>
+        </div>
+        <div class="sample">Kami membantu tim menghemat waktu lewat sistem yang otomatis, presisi, dan mudah dipantau.</div>
+      </div>
+
+      <div class="plate type-role mono-sample"><div class="c2"></div>
+        <div class="meta">
+          <div class="name">JetBrains Mono</div>
+          <div class="role">--font-mono · code, badges</div>
+          <div class="weights">weight 400 / 500</div>
+        </div>
+        <div class="sample">SYSTEM.READY · 120+ SISTEM · #091540</div>
+      </div>
+
+      <div class="plate" style="margin-top:32px; padding:28px 30px;"><div class="c2"></div>
+        <table class="scale-table">
+          <tr>
+            <th>Elemen</th>
+            <th>Ukuran</th>
+            <th>Font</th>
+            <th>Catatan</th>
+          </tr>
+          <tr>
+            <td class="el">Hero Title (H1)</td>
+            <td class="px">clamp(2.5rem, 6vw, 4rem)</td>
+            <td>Space Grotesk 700</td>
+            <td class="note">Responsif & besar</td>
+          </tr>
+          <tr>
+            <td class="el">Section Title</td>
+            <td class="px">clamp(1.75rem, 4vw, 2.5rem)</td>
+            <td>Space Grotesk 600</td>
+            <td class="note">Konsisten di semua section</td>
+          </tr>
+          <tr>
+            <td class="el">Stats Number</td>
+            <td class="px">2rem / 3rem</td>
+            <td>Space Grotesk 700</td>
+            <td class="note">Untuk angka pencapaian</td>
+          </tr>
+          <tr>
+            <td class="el">Body / Nav</td>
+            <td class="px">0.875rem – 1rem</td>
+            <td>Inter 400–500</td>
+            <td class="note">—</td>
+          </tr>
+          <tr>
+            <td class="el">Mono Label / Badge</td>
+            <td class="px">0.68rem – 0.72rem</td>
+            <td>JetBrains Mono 500</td>
+            <td class="note">Minimal 0.68rem</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- COMPONENTS -->
+    <section id="components">
+      <div class="section-head">
+        <span class="section-num">04</span>
+        <h2>Komponen</h2>
+      </div>
+      <p class="lede">Komponen visual yang sering digunakan di materi B-Automate.</p>
+
+      <div class="comp-grid">
+        <div class="plate comp-card"><div class="c2"></div>
+          <div class="k">BUTTON</div>
+          <h3>Primary Button</h3>
+          <p>Untuk CTA utama di materi apapun.</p>
+          <div style="margin-top:14px;">
+            <span class="btn-demo">Konsultasi gratis</span>
+          </div>
+        </div>
+        <div class="plate comp-card"><div class="c2"></div>
+          <div class="k">BADGE</div>
+          <h3>Monospace Label</h3>
+          <p>Untuk tag teknikal dan status.</p>
+          <div style="margin-top:14px;">
+            <span class="badge-demo">SYSTEM.READY</span>
+          </div>
+        </div>
+        <div class="plate comp-card" style="background:var(--navy);"><div class="c2"></div>
+          <div class="k" style="color:var(--sky);">STATS</div>
+          <h3 style="color:#fff;">Stat Display</h3>
+          <p style="color:rgba(255,255,255,0.75);">Untuk angka pencapaian/impact.</p>
+          <div class="stat-demo">
+            <div class="num">120+</div>
+            <div class="lbl">SISTEM DIBANGUN</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POSTER TEMPLATE -->
+    <section id="poster" style="border-bottom:none;">
+      <div class="section-head">
+        <span class="section-num">05</span>
+        <h2>Poster Template</h2>
+      </div>
+      <p class="lede">Template poster yang bisa langsung digunakan dengan brand guidelines B-Automate.</p>
+
+      <div class="plate" style="padding:40px; text-align:center; background:var(--navy);">
+        <div style="max-width:500px; margin:0 auto; color:#fff;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <img src="assets/logo-white.png" alt="Logo" style="width:34px; height:34px; object-fit:contain;">
+              <span style="font-family:var(--font-heading); font-weight:600; font-size:1rem; color:#fff;">B-Automate</span>
+            </div>
+            <span class="badge-demo">SYSTEM.READY</span>
+          </div>
+
+          <h3 style="font-family:var(--font-heading); font-weight:700; font-size:2.2rem; line-height:1.15; margin:0 0 20px; color:#fff;">
+            Bisnismu jalan,<br><span style="color:var(--mid);">sistemnya otomatis.</span>
+          </h3>
+
+          <p style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:rgba(255,255,255,0.75); margin:0 0 30px;">
+            Kami merancang alur kerja otomatis yang menghemat waktu tim dan mengurangi kesalahan manual — dari operasional harian sampai laporan bulanan.
+          </p>
+
+          <div style="display:flex; gap:40px; justify-content:center; margin-bottom:30px;">
+            <div>
+              <div style="font-family:var(--font-heading); font-weight:700; font-size:2rem; color:#fff;">120+</div>
+              <div style="font-family:var(--font-mono); font-size:0.66rem; color:var(--sky); margin-top:4px;">SISTEM DIBANGUN</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-heading); font-weight:700; font-size:2rem; color:#fff;">40%</div>
+              <div style="font-family:var(--font-mono); font-size:0.66rem; color:var(--sky); margin-top:4px;">RATA-RATA HEMAT WAKTU</div>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid rgba(255,255,255,0.16); padding-top:20px; display:flex; justify-content:space-between; align-items:center;">
+            <span class="btn-demo">Konsultasi gratis</span>
+            <div style="font-family:var(--font-mono); font-size:0.72rem; color:rgba(255,255,255,0.65); text-align:right; line-height:1.6;">
+              hello@b-automate.co<br>b-automate.co
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>B-AUTOMATE — BRAND STYLE GUIDE — SEPTEMBER 2026</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+{
+  "name": "W9: E-Commerce Order (Shopee/Tokopedia)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ecommerce-order",
+        "responseMode": "lastNode"
+      },
+      "name": "Webhook E-Commerce",
+      "type": "n8n-nodes-base.webhook",
+      "position": [250, 300],
+      "webhookId": "ecommerce-order"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse e-commerce order data\n// Supports: Shopee, Tokopedia, Lazada, etc.\nconst data = $input.first().json;\n\n// Normalize data structure\nconst order = {\n  external_order_id: data.order_id || data.orderNo,\n  platform: data.platform || data.source || 'ecommerce',\n  customer_name: data.customer_name || data.buyer_name,\n  customer_phone: data.customer_phone || data.recipient_phone,\n  customer_address: data.customer_address || data.recipient_address,\n  items: data.items || data.products || [{\n    sku: data.sku,\n    name: data.product_name,\n    qty: data.qty || data.quantity,\n    price: data.price || data.unit_price\n  }],\n  total_amount: data.total_amount || data.total,\n  shipping_cost: data.shipping_cost || 0,\n  order_date: data.order_date || new Date().toISOString()\n};\n\nreturn [{ json: order }];"
+      },
+      "name": "Parse Order",
+      "type": "n8n-nodes-base.code",
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "url": "=http://erp_duanaga_odoo:8069/xmlrpc/2/object",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "0", "value": "=\"duanaga\""},
+            {"name": "1", "value": "=2"},
+            {"name": "2", "value": "=\"admin\""},
+            {"name": "3", "value": "=\"sale.order\""},
+            {"name": "4", "value": "=\"create\""},
+            {"name": "5", "value": "={{ { \"partner_id\": 1, \"partner_shipping_id\": 1, \"note\": \"E-Commerce Order - \" + $json.platform + \" - \" + $json.external_order_id } }}"}
+          ]
+        }
+      },
+      "name": "Create SO in Odoo",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "=-1001234567892",
+        "text": "=🛒 NEW E-COMMERCE ORDER!\\n\\nPlatform: {{ $json.platform }}\\nOrder ID: {{ $json.external_order_id }}\\nCustomer: {{ $json.customer_name }}\\nTotal: Rp {{ $json.total_amount?.toLocaleString() }}\\n\\nItems:\\n{{ $json.items.map(i => `• ${i.name} x${i.qty}`).join('\\n') }}"
+      },
+      "name": "Alert Sales",
+      "type": "n8n-nodes-base.telegram",
+      "position": [910, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Respond to e-commerce platform\nreturn [{\n  json: {\n    status: 'success',\n    message: 'Order received and processing'\n  }\n}];"
+      },
+      "name": "Confirm to Platform",
+      "type": "n8n-nodes-base.code",
+      "position": [910, 450]
+    }
+  ],
+  "connections": {
+    "Webhook E-Commerce": { "main": [[{"node": "Parse Order", "type": "main", "index": 0}]] },
+    "Parse Order": { "main": [[{"node": "Create SO in Odoo", "type": "main", "index": 0}]] },
+    "Create SO in Odoo": { "main": [[{"node": "Alert Sales", "type": "main", "index": 0}, {"node": "Confirm to Platform", "type": "main", "index": 0}]] }
+  },
+  "active": false,
+  "id": "wf-ecommerce-order"
+}

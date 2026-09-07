@@ -1,0 +1,102 @@
+{
+  "name": "W2: Daily Report - Jam 08:00",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{"field": "cron", "expression": "0 8 * * *"}]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.trigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "=http://erp_duanaga_odoo:8069/xmlrpc/2/object",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "0", "value": "=\"duanaga\""},
+            {"name": "1", "value": "=2"},
+            {"name": "2", "value": "=\"admin\""},
+            {"name": "3", "value": "=\"crm.lead\""},
+            {"name": "4", "value": "=\"search_count\""},
+            {"name": "5", "value": "=[[[\"create_date\", \">=\", \"{{ $today }}\"]]]"}
+          ]
+        }
+      },
+      "name": "Count New Leads",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [470, 100]
+    },
+    {
+      "parameters": {
+        "url": "=http://erp_duanaga_odoo:8069/xmlrpc/2/object",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "0", "value": "=\"duanaga\""},
+            {"name": "1", "value": "=2"},
+            {"name": "2", "value": "=\"admin\""},
+            {"name": "3", "value": "=\"sale.order\""},
+            {"name": "4", "value": "=\"search_count\""},
+            {"name": "5", "value": "=[[[\"date_order\", \">=\", \"{{ $today }}\"], [\"state\", \"=\", \"sale\"]]]"}
+          ]
+        }
+      },
+      "name": "Count SO Today",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [470, 220]
+    },
+    {
+      "parameters": {
+        "url": "=http://erp_duanaga_odoo:8069/xmlrpc/2/object",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "0", "value": "=\"duanaga\""},
+            {"name": "1", "value": "=2"},
+            {"name": "2", "value": "=\"admin\""},
+            {"name": "3", "value": "=\"mrp.production\""},
+            {"name": "4", "value": "=\"search_count\""},
+            {"name": "5", "value": "=[[[\"date_finished\", \">=\", \"{{ $today }}\"], [\"state\", \"=\", \"done\"]]]"}
+          ]
+        }
+      },
+      "name": "Count MO Today",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [470, 340]
+    },
+    {
+      "parameters": {
+        "jsCode": "const today = new Date().toLocaleDateString('id-ID', {day: '2-digit', month: 'long', year: 'numeric'});\n\nreturn [{\n  json: {\n    date: today,\n    leads: $node[\"Count New Leads\"].data[0].json,\n    sales: $node[\"Count SO Today\"].data[0].json,\n    mo: $node[\"Count MO Today\"].data[0].json\n  }\n}];"
+      },
+      "name": "Compile Report",
+      "type": "n8n-nodes-base.code",
+      "position": [690, 220]
+    },
+    {
+      "parameters": {
+        "chatId": "=-1001234567890",
+        "text": "=📊 DAILY REPORT - {{ $json.date }}\\n\\n📥 New Leads: {{ $json.leads }}\\n📦 Sales Orders: {{ $json.sales }}\\n🏭 MO Completed: {{ $json.mo }}\\n\\n#DuaNagaReport"
+      },
+      "name": "Send WA Report",
+      "type": "n8n-nodes-base.telegram",
+      "position": [910, 220]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": { "main": [[{"node": "Count New Leads", "type": "main", "index": 0}, {"node": "Count SO Today", "type": "main", "index": 0}, {"node": "Count MO Today", "type": "main", "index": 0}]] },
+    "Count New Leads": { "main": [[{"node": "Compile Report", "type": "main", "index": 0}]] },
+    "Count SO Today": { "main": [[{"node": "Compile Report", "type": "main", "index": 0}]] },
+    "Count MO Today": { "main": [[{"node": "Compile Report", "type": "main", "index": 0}]] },
+    "Compile Report": { "main": [[{"node": "Send WA Report", "type": "main", "index": 0}]] }
+  },
+  "active": false,
+  "id": "wf-daily-report"
+}

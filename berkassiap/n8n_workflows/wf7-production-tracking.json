@@ -1,0 +1,48 @@
+{
+  "name": "W7: Production Tracking",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mo-started",
+        "responseMode": "lastNode"
+      },
+      "name": "Webhook MO Started",
+      "type": "n8n-nodes-base.webhook",
+      "position": [250, 300],
+      "webhookId": "mo-started"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse MO data\nconst data = $input.first().json;\n\nreturn [{\n  json: {\n    mo_number: data.mo_number || 'N/A',\n    product: data.product_name || 'Unknown',\n    qty: data.qty || 0,\n    customer: data.customer_name || 'Internal',\n    start_time: new Date().toISOString(),\n    expected_duration_hours: data.expected_hours || 8\n  }\n}];"
+      },
+      "name": "Parse MO Data",
+      "type": "n8n-nodes-base.code",
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "=-1001234567891",
+        "text": "=🏭 PRODUCTION STARTED\\n\\nMO: {{ $json.mo_number }}\\nProduct: {{ $json.product }}\\nQty: {{ $json.qty }} pcs\\nCustomer: {{ $json.customer }}\\n\\n⏱️ Expected Duration: {{ $json.expected_duration_hours }} hours"
+      },
+      "name": "Alert Production",
+      "type": "n8n-nodes-base.telegram",
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "=-1001234567892",
+        "text": "=📦 Production in Progress\\n\\nHi {{ $json.customer }}!\\n\\nOrder Anda sedang dalam proses produksi.\\nEstimated completion: {{ $json.expected_duration_hours }} hours\\n\\nKami akan informasikan saat selesai!"
+      },
+      "name": "Notify Customer",
+      "type": "n8n-nodes-base.telegram",
+      "position": [690, 450]
+    }
+  ],
+  "connections": {
+    "Webhook MO Started": { "main": [[{"node": "Parse MO Data", "type": "main", "index": 0}]] },
+    "Parse MO Data": { "main": [[{"node": "Alert Production", "type": "main", "index": 0}, {"node": "Notify Customer", "type": "main", "index": 0}]] }
+  },
+  "active": false,
+  "id": "wf-production-tracking"
+}

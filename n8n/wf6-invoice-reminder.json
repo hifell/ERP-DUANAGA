@@ -1,0 +1,60 @@
+{
+  "name": "W6: Invoice Reminder",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{"field": "cron", "expression": "0 9 * * *"}]
+        }
+      },
+      "name": "Daily 09:00",
+      "type": "n8n-nodes-base.trigger",
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "=http://erp_duanaga_odoo:8069/xmlrpc/2/object",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "0", "value": "=\"duanaga\""},
+            {"name": "1", "value": "=2"},
+            {"name": "2", "value": "=\"admin\""},
+            {"name": "3", "value": "=\"account.move\""},
+            {"name": "4", "value": "=\"search_read\""},
+            {"name": "5", "value": "=[[[\"move_type\", \"=\", \"out_invoice\"], [\"state\", \"=\", \"posted\"]]]"},
+            {"name": "6", "value": "={\"fields\": [\"name\", \"partner_id\", \"invoice_date\", \"invoice_date_due\", \"amount_residual\"], \"limit\": 50}"}
+          ]
+        }
+      },
+      "name": "Get Open Invoices",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Filter overdue invoices\nconst invoices = $input.all();\nconst today = new Date();\nconst overdue = [];\nconst today_invoices = [];\nconst upcoming = [];\n\nfor (const inv of invoices) {\n  const dueDate = new Date(inv.json.invoice_date_due);\n  const daysDiff = Math.floor((today - dueDate) / (1000 * 60 * 60 * 24));\n  \n  if (daysDiff > 0) {\n    overdue.push({\n      name: inv.json.name,\n      customer: inv.json.partner_id ? inv.json.partner_id[1] : 'Unknown',\n      amount: inv.json.amount_residual,\n      days_overdue: daysDiff,\n      priority: daysDiff > 30 ? 'URGENT' : daysDiff > 7 ? 'HIGH' : 'MEDIUM'\n    });\n  } else if (daysDiff === 0) {\n    today_invoices.push(inv.json);\n  } else if (daysDiff >= -7) {\n    upcoming.push(inv.json);\n  }\n}\n\nreturn [\n  { json: { type: 'overdue', items: overdue, count: overdue.length } },\n  { json: { type: 'today', items: today_invoices, count: today_invoices.length } },\n  { json: { type: 'upcoming', items: upcoming, count: upcoming.length } }\n];"
+      },
+      "name": "Categorize Invoices",
+      "type": "n8n-nodes-base.code",
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "=-1001234567890",
+        "text": "=💰 PAYMENT REMINDER\\n\\n📋 Overdue Invoices: {{ $json.count }}\\n\\n{{ $json.items.slice(0, 5).map(i => `⚠️ ${i.name}\\n   ${i.customer}\\n   Rp ${i.amount?.toLocaleString()}\\n   ${i.days_overdue} days overdue`).join('\\n\\n') }}"
+      },
+      "name": "Alert Finance",
+      "type": "n8n-nodes-base.telegram",
+      "position": [910, 200]
+    }
+  ],
+  "connections": {
+    "Daily 09:00": { "main": [[{"node": "Get Open Invoices", "type": "main", "index": 0}]] },
+    "Get Open Invoices": { "main": [[{"node": "Categorize Invoices", "type": "main", "index": 0}]] },
+    "Categorize Invoices": { "main": [[{"node": "Alert Finance", "type": "main", "index": 0}]] }
+  },
+  "active": false,
+  "id": "wf-invoice-reminder"
+}

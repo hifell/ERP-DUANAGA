@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="success">
+        <t t-call="website.layout">
+            <div class="container">
+                <div class="alert alert-success">
+                    <h2>Terima Kasih!</h2>
+                    <p>Pertanyaan Anda telah kami terima. Tim kami akan segera menghubungi Anda.</p>
+                    <a href="/" class="btn btn-primary">Kembali ke Beranda</a>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="error">
+        <t t-call="website.layout">
+            <div class="container">
+                <div class="alert alert-danger">
+                    <h2>Error</h2>
+                    <p t-esc="message"/>
+                    <a href="/" class="btn btn-primary">Kembali</a>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

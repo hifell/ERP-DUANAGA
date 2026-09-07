@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dokumentasi ERP PT Dua Naga Kosmetindo</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; font-size: 10pt; color: #333; margin: 0; padding: 20px; }
+        h1 { color: #1a5276; border-bottom: 3px solid #3498db; padding-bottom: 10px; page-break-after: avoid; }
+        h2 { color: #1a5276; margin-top: 20px; border-bottom: 1px solid #ddd; page-break-after: avoid; }
+        h3 { color: #2980b9; margin-top: 15px; page-break-after: avoid; }
+        table { border-collapse: collapse; width: 100%; margin: 10px 0; page-break-inside: avoid; }
+        th, td { border: 1px solid #bdc3c7; padding: 6px 8px; text-align: left; }
+        th { background-color: #3498db; color: white; }
+        code { background-color: #f4f4f4; padding: 2px 4px; font-size: 9pt; }
+        pre { background-color: #2c3e50; color: #ecf0f1; padding: 10px; border-radius: 3px; page-break-inside: avoid; }
+        ul, ol { margin: 10px 0; padding-left: 25px; }
+        li { margin-bottom: 5px; }
+        hr { border: none; border-top: 1px solid #ddd; margin: 20px 0; }
+        blockquote { border-left: 3px solid #3498db; margin: 10px 0; padding-left: 10px; color: #666; }
+    </style>
+</head>
+<body>
+<h1>ERP PT DUA NAGA KOSMETINDO</h1>
+<h2>Panduan Penggunaan - Maklon Kosmetik</h2>
+<hr />
+<h2>AKSES SISTEM</h2>
+<ul>
+<li><strong>URL:</strong> http://localhost:8069</li>
+<li><strong>Database:</strong> duanaga</li>
+<li><strong>Login:</strong> admin / admin</li>
+</ul>
+<hr />
+<h2>1. ORDER BARU DARI KLIEN (SALES ORDER)</h2>
+<h3>Langkah:</h3>
+<ol>
+<li><strong>Menu:</strong> <code>Sales</code> → <code>Orders</code> → <code>Create</code></li>
+<li><strong>Customer:</strong> Pilih dari daftar (Beauty Glow, SkinLab, dll)</li>
+<li><strong>Add Product:</strong> Klik <code>Add a product</code> → pilih produk</li>
+<li><strong>Quantity:</strong> Masukkan jumlah (misal: 1000)</li>
+<li><strong>Notes:</strong> Tambah instruksi packaging</li>
+<li><strong>Save</strong> → <code>Confirm</code></li>
+</ol>
+<h3>Contoh Input:</h3>
+<pre><code>Customer: Beauty Glow Indonesia
+Product: Face Serum Vitamin C 30ml
+Quantity: 1000 pcs
+Unit Price: Rp 85.000
+Notes: Private Label - Botol Custom + Box Logo
+</code></pre>
+<h3>Status Order:</h3>
+<ul>
+<li><code>Quotation</code> → Draft/Quote</li>
+<li><code>Sent</code> → Sudah dikirim ke customer</li>
+<li><code>Sale Order</code> → Confirm/Sudah locked</li>
+<li><code>Done</code> → Selesai</li>
+</ul>
+<hr />
+<h2>2. PEMBELIAN BAHAN BAKI (PURCHASE ORDER)</h2>
+<h3>Langkah:</h3>
+<ol>
+<li><strong>Menu:</strong> <code>Purchase</code> → <code>Orders</code> → <code>Create</code></li>
+<li><strong>Vendor:</strong> Pilih supplier (CV Chemindo, PT Packpro, dll)</li>
+<li><strong>Add Product:</strong> Tambah bahan baku yang needed</li>
+<li><strong>Quantity:</strong> Masukkan jumlah sesuai kebutuhan</li>
+<li><strong>Confirm</strong> → <code>Confirm Order</code></li>
+</ol>
+<h3>Receiving (Terima Barang):</h3>
+<ol>
+<li><strong>Menu:</strong> <code>Inventory</code> → <code>Operations</code> → <code>Receipts</code></li>
+<li><strong>Create</strong> → Pilih PO yang sudah confirm</li>
+<li><strong>Validate</strong> → Barang masuk warehouse</li>
+</ol>
+<h3>Contoh Input:</h3>
+<pre><code>Vendor: CV Chemindo Sentosa
+Products:
+  - Vitamin C Powder: 50 kg @ Rp 500.000
+  - Niacinamide: 20 kg @ Rp 420.000
+  - Glycerin USP: 100 kg @ Rp 180.000
+</code></pre>
+<hr />
+<h2>3. PRODUKSI (MANUFACTURING)</h2>
+<h3>Langkah:</h3>
+<ol>
+<li><strong>Menu:</strong> <code>Manufacturing</code> → <code>Orders</code> → <code>Create</code></li>
+<li><strong>Product:</strong> Pilih Finish Goods (Face Serum, Body Lotion, dll)</li>
+<li><strong>Quantity:</strong> Jumlah yang mau diproduksi</li>
+<li><strong>BoM:</strong> Otomatis terisi dari Bill of Materials</li>
+<li><strong>Confirm</strong> → <code>Confirm</code></li>
+</ol>
+<h3>Production Flow:</h3>
+<pre><code>MO Created → In Progress → Done
+                    ↓
+           Finish Goods masuk
+           WH/Stock/FG location
+</code></pre>
+<h3>Untuk Produce:</h3>
+<ol>
+<li><strong>Manufacturing</strong> → Click MO</li>
+<li><strong>Button:</strong> <code>Produce</code> atau <code>Mark as Done</code></li>
+<li><strong>Consume:</strong> Materials otomatis dikurangi dari stock</li>
+<li><strong>Finish:</strong> Products masuk ke warehouse</li>
+</ol>
+<h3>Contoh:</h3>
+<pre><code>Product: Face Serum Vitamin C 30ml
+Quantity: 1000 pcs
+BOM Components:
+  - Vitamin C Powder: 0.5 kg
+  - Glycerin: 1.0 kg
+  - Niacinamide: 0.3 kg
+</code></pre>
+<hr />
+<h2>4. PENGIRIMAN KE KLIEN (DELIVERY)</h2>
+<h3>Langkah:</h3>
+<ol>
+<li><strong>Menu:</strong> <code>Inventory</code> → <code>Operations</code> → <code>Delivery Orders</code></li>
+<li><strong>Create</strong> → Pilih SO yang mau dikirim</li>
+<li><strong>Check:</strong> Product + Quantity sesuai SO</li>
+<li><strong>Validate</strong> → Barang keluar warehouse</li>
+</ol>
+<h3>Atau dari Sales Order:</h3>
+<ol>
+<li><strong>Sales</strong> → Open SO</li>
+<li><strong>Button:</strong> <code>Delivery</code> → <code>Validate</code></li>
+<li>Stok langsung terupdate</li>
+</ol>
+<hr />
+<h2>5. R&amp;D FORMULA (PROJECT)</h2>
+<h3>Langkah:</h3>
+<ol>
+<li><strong>Menu:</strong> <code>Project</code> → Pilih project (R&amp;D Skincare/Haircare)</li>
+<li><strong>Create Task</strong> → Tambah task baru</li>
+<li><strong>Assign:</strong> Ke team member</li>
+<li><strong>Description:</strong> Detail formula, trial notes</li>
+</ol>
+<h3>Contoh Task:</h3>
+<pre><code>Task: Formulasi Sunscreen SPF 60
+Assigned to: R&amp;D Team
+Description:
+- Target SPF: 60
+- Water resistant: Ya
+- Trial batch: 3
+- Notes: Using SPF Booster Compound
+</code></pre>
+<hr />
+<h2>6. STOCK OPERATION (LANGSUNG)</h2>
+<h3>Goods Receipt (Barang Masuk):</h3>
+<pre><code>Menu: Inventory → Operations → Receipts
+Create → Vendor: pilih → Add product → Validate
+</code></pre>
+<h3>Goods Issue (Barang Keluar):</h3>
+<pre><code>Menu: Inventory → Operations → Delivery Orders
+Create → Customer: pilih → Add product → Validate
+</code></pre>
+<h3>Internal Transfer:</h3>
+<pre><code>Menu: Inventory → Operations → Internal Transfers
+Move: WH/Stock/BB → WH/Produksi
+</code></pre>
+<hr />
+<h2>7. LAPORAN</h2>
+<h3>Menu: <code>Reporting</code></h3>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Fungsi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inventory Valuation</td>
+<td>Nilai stok saat ini</td>
+</tr>
+<tr>
+<td>Stock Moves</td>
+<td>Riwayat beweging barang</td>
+</tr>
+<tr>
+<td>Sales Analysis</td>
+<td>Analisis penjualan</td>
+</tr>
+<tr>
+<td>Purchase Analysis</td>
+<td>Analisis pembelian</td>
+</tr>
+<tr>
+<td>MRP Analysis</td>
+<td>Produksi report</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>8. USER &amp; ACCESS (ADMIN)</h2>
+<h3>Menu: <code>Settings</code> → <code>Users</code></h3>
+<table>
+<thead>
+<tr>
+<th>User</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>admin</td>
+<td>Full Access</td>
+</tr>
+<tr>
+<td>marketing@duanaga.co.id</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>produksi@duanaga.co.id</td>
+<td>Manufacturing</td>
+</tr>
+<tr>
+<td>purchasing@duanaga.co.id</td>
+<td>Purchase</td>
+</tr>
+<tr>
+<td>gudang@duanaga.co.id</td>
+<td>Inventory</td>
+</tr>
+<tr>
+<td>qc@duanaga.co.id</td>
+<td>QC/Inventory</td>
+</tr>
+</tbody>
+</table>
+<p>Password default: <code>Duanaga2024</code></p>
+<hr />
+<h2>FLOW MAKLON LENGKAP</h2>
+<pre><code>1. CLIENT ORDER
+   Sales → Create SO → Confirm
+
+2. PROCUREMENT
+   Purchase → PO → Receive → Stock BB
+
+3. PRODUCTION
+   Manufacturing → MO → Produce → Finish Goods
+
+4. QC CHECK
+   Inventory → Quality → Check product
+
+5. DELIVERY
+   Delivery Order → Validate → Kirim ke Client
+
+6. INVOICING
+   Accounting → Customer Invoices → Create
+</code></pre>
+<hr />
+<h2>STRUKTUR PRODUK</h2>
+<h3>Kategori:</h3>
+<ul>
+<li><strong>Kosmetik</strong> (Parent)</li>
+<li>Face Care</li>
+<li>Body Care</li>
+<li>Hair Care</li>
+<li>Sunscreen</li>
+<li>dll</li>
+</ul>
+<h3>Tipe Product:</h3>
+<ul>
+<li><strong>Storable (Product):</strong> Finish Goods - tracking stock</li>
+<li><strong>Consumable (Consu):</strong> Bahan Baku - tidak tracking stock detail</li>
+<li><strong>Service:</strong> Jasa maklon</li>
+</ul>
+<hr />
+<h2>WAREHOUSE STRUCTURE</h2>
+<pre><code>WH: Dua Naga Main Warehouse
+├── WH/Stock/BB      → Bahan Baku
+├── WH/Stock/PK      → Packaging
+├── WH/Stock/FG      → Finish Goods
+├── WH/QC            → Quality Control
+├── WH/Produksi      → Production Area
+└── WH/Output        → Finished Products
+</code></pre>
+<hr />
+<h2>NOMOR DOKUMEN</h2>
+<table>
+<thead>
+<tr>
+<th>Document</th>
+<th>Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sales Order</td>
+<td>SO/2026/00001</td>
+</tr>
+<tr>
+<td>Purchase Order</td>
+<td>PO/2026/00001</td>
+</tr>
+<tr>
+<td>Manufacturing</td>
+<td>MO/2026/00001</td>
+</tr>
+<tr>
+<td>Delivery</td>
+<td>DN/2026/00001</td>
+</tr>
+<tr>
+<td>Receipt</td>
+<td>WH/2026/00001</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>KONTAK</h2>
+<ul>
+<li><strong>Email:</strong> marketing@duanaga.co.id</li>
+<li><strong>Phone:</strong> +62 811-2127-464</li>
+<li><strong>Website:</strong> https://duanaga.co.id</li>
+<li><strong>Alamat:</strong> Dk. Gambiran, Ds. Krajan, Kec. Gatak, Kab. Sukoharjo, Jawa Tengah 57557</li>
+</ul>
+<hr />
+<p><em>Document Version: 1.0</em>
+<em>Last Updated: 2026-09-05</em></p>
+</body>
+</html>

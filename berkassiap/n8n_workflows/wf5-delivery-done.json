@@ -1,0 +1,49 @@
+{
+  "name": "W5: Delivery Done - Notify Customer",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "delivery-done",
+        "responseMode": "lastNode"
+      },
+      "name": "Webhook Delivery",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "delivery-done"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse delivery data\nconst data = $input.first().json;\n\nreturn [{\n  json: {\n    delivery_number: data.delivery_number || 'N/A',\n    customer: data.customer_name || 'Customer',\n    customer_phone: data.customer_phone || '',\n    products: data.products || 'Your order',\n    tracking: data.tracking_number || 'Will be sent separately'\n  }\n}];"
+      },
+      "name": "Parse Data",
+      "type": "n8n-nodes-base.code",
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.customer_phone }}",
+        "text": "=✅ Delivery Confirmed!\\n\\nHi {{ $json.customer }}!\\n\\nPesanan Anda telah kami kirim:\\n📦 {{ $json.products }}\\n\\nTerima kasih atas kepercayaan Anda!\\n\\n📞 CS: +62 811-2127-464\\n🌐 duanaga.co.id"
+      },
+      "name": "Notify Customer",
+      "type": "n8n-nodes-base.telegram",
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "=-1001234567892",
+        "text": "=✅ DELIVERY COMPLETED\\n\\nDelivery: {{ $json.delivery_number }}\\nTo: {{ $json.customer }}\\nTracking: {{ $json.tracking }}"
+      },
+      "name": "Notify Sales Team",
+      "type": "n8n-nodes-base.telegram",
+      "position": [690, 450]
+    }
+  ],
+  "connections": {
+    "Webhook Delivery": { "main": [[{"node": "Parse Data", "type": "main", "index": 0}]] },
+    "Parse Data": { "main": [[{"node": "Notify Customer", "type": "main", "index": 0}, {"node": "Notify Sales Team", "type": "main", "index": 0}]] }
+  },
+  "active": false,
+  "id": "wf-delivery-done"
+}

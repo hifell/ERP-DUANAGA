@@ -1,0 +1,62 @@
+{
+  "name": "W4: SO Confirmed - Alert Production",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "so-confirmed",
+        "responseMode": "lastNode"
+      },
+      "name": "Webhook SO",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "so-confirmed"
+    },
+    {
+      "parameters": {
+        "url": "=http://erp_duanaga_odoo:8069/xmlrpc/2/object",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "0", "value": "=\"duanaga\""},
+            {"name": "1", "value": "=2"},
+            {"name": "2", "value": "=\"admin\""},
+            {"name": "3", "value": "=\"sale.order\""},
+            {"name": "4", "value": "=\"search_read\""},
+            {"name": "5", "value": "=[[[\"name\", \"=\", \"{{ $json.so_number }}\"]]]"},
+            {"name": "options", "value": "={\"fields\": [\"name\", \"partner_id\", \"date_delivery\", \"order_line\"]}"}
+          ]
+        }
+      },
+      "name": "Get SO Details",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format SO data\nconst so = $input.first().json;\nconst line = so.order_line ? so.order_line[0] : {};\n\nreturn [{\n  json: {\n    so_number: so.name,\n    customer: so.partner_id ? so.partner_id[1] : 'Unknown',\n    delivery_date: so.date_delivery || 'TBA',\n    product: line.product_id ? line.product_id[1] : 'N/A',\n    qty: line.product_uom_qty || 0\n  }\n}];"
+      },
+      "name": "Format Data",
+      "type": "n8n-nodes-base.code",
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "=-1001234567891",
+        "text": "=📦 NEW ORDER CONFIRMED!\\n\\nSO: {{ $json.so_number }}\\nCustomer: {{ $json.customer }}\\nProduct: {{ $json.product }}\\nQty: {{ $json.qty }}\\nDue Date: {{ $json.delivery_date }}\\n\\n🏭 Silakan prepare production!"
+      },
+      "name": "Alert Production",
+      "type": "n8n-nodes-base.telegram",
+      "position": [910, 300]
+    }
+  ],
+  "connections": {
+    "Webhook SO": { "main": [[{"node": "Get SO Details", "type": "main", "index": 0}]] },
+    "Get SO Details": { "main": [[{"node": "Format Data", "type": "main", "index": 0}]] },
+    "Format Data": { "main": [[{"node": "Alert Production", "type": "main", "index": 0}]] }
+  },
+  "active": false,
+  "id": "wf-so-confirmed"
+}

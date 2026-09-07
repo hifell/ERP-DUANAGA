@@ -1,0 +1,64 @@
+{
+  "name": "W1: Lead Capture dari Website",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "lead-capture"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse incoming data\nconst data = $input.first().json;\n\nconst leadData = {\n  name: data.name || 'Website Lead',\n  contact_name: data.contact_name || data.name || '',\n  email_from: data.email || '',\n  phone: data.phone || '',\n  description: `Product: ${data.product || 'N/A'}\\nQuantity: ${data.quantity || 'N/A'}\\n\\n${data.message || ''}`,\n  type: 'lead',\n  source_id: 1 // Website\n};\n\nreturn [{ json: leadData }];"
+      },
+      "name": "Parse Data",
+      "type": "n8n-nodes-base.code",
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "url": "=http://erp_duanaga_odoo:8069/xmlrpc/2/object",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "0", "value": "=\"duanaga\""},
+            {"name": "1", "value": "=2"},
+            {"name": "2", "value": "=\"admin\""},
+            {"name": "3", "value": "=\"crm.lead\""},
+            {"name": "4", "value": "=\"create\""},
+            {"name": "5", "value": "={{ $json }}"}
+          ]
+        },
+        "options": {}
+      },
+      "name": "Create Lead in Odoo",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "=-1001234567890",
+        "text": "=🆕 NEW LEAD!\\n\\nNama: {{ $json.name }}\\nEmail: {{ $json.email_from }}\\nHP: {{ $json.phone }}\\n\\n💬 {{ $json.description }}"
+      },
+      "name": "Notif WA Marketing",
+      "type": "n8n-nodes-base.telegram",
+      "position": [910, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [[{"node": "Parse Data", "type": "main", "index": 0}]] },
+    "Parse Data": { "main": [[{"node": "Create Lead in Odoo", "type": "main", "index": 0}]] },
+    "Create Lead in Odoo": { "main": [[{"node": "Notif WA Marketing", "type": "main", "index": 0}]] }
+  },
+  "active": false,
+  "settings": {},
+  "id": "wf-lead-capture"
+}

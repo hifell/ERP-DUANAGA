@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- QC Integration Menu -->
+    <menuitem id="menu_qc_kbr_root"
+              name="QC KBR System"
+              parent="mrp.menu_mrp_root"
+              sequence="90"/>
+
+    <menuitem id="menu_qc_kbr_decisions"
+              name="KBR Decisions"
+              parent="menu_qc_kbr_root"
+              action="action_qc_kbr_decision"
+              sequence="10"/>
+
+    <menuitem id="menu_qc_kbr_config"
+              name="Configuration"
+              parent="menu_qc_kbr_root"
+              sequence="100"/>
+</odoo>

@@ -1,0 +1,69 @@
+{
+  "name": "W10: Supplier Performance Tracking",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{"field": "cron", "expression": "0 8 * * 1"}]
+        }
+      },
+      "name": "Weekly Monday 08:00",
+      "type": "n8n-nodes-base.trigger",
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "=http://erp_duanaga_odoo:8069/xmlrpc/2/object",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "0", "value": "=\"duanaga\""},
+            {"name": "1", "value": "=2"},
+            {"name": "2", "value": "=\"admin\""},
+            {"name": "3", "value": "=\"purchase.order\""},
+            {"name": "4", "value": "=\"search_read\""},
+            {"name": "5", "value": "=[[[\"date_order\", \">=\", \"{{ $dateInterval(-7, 'days') }}\"], [\"state\", \"=\", \"done\"]]]"},
+            {"name": "6", "value": "={\"fields\": [\"name\", \"partner_id\", \"date_order\", \"date_planned\", \"order_line\"], \"limit\": 100}"}
+          ]
+        }
+      },
+      "name": "Get Completed POs",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Calculate supplier performance\nconst orders = $input.all();\nconst supplierStats = {};\n\nfor (const order of orders) {\n  const supplier = order.json.partner_id ? order.json.partner_id[1] : 'Unknown';\n  const plannedDate = new Date(order.json.date_planned);\n  const actualDate = new Date(order.json.date_order);\n  const daysDiff = Math.floor((actualDate - plannedDate) / (1000 * 60 * 60 * 24));\n  \n  if (!supplierStats[supplier]) {\n    supplierStats[supplier] = {\n      name: supplier,\n      total_orders: 0,\n      on_time: 0,\n      late_1_2_days: 0,\n      late_3_plus: 0,\n      avg_delay: 0\n    };\n  }\n  \n  supplierStats[supplier].total_orders++;\n  \n  if (daysDiff <= 0) {\n    supplierStats[supplier].on_time++;\n  } else if (daysDiff <= 2) {\n    supplierStats[supplier].late_1_2_days++;\n  } else {\n    supplierStats[supplier].late_3_plus++;\n  }\n}\n\n// Calculate scores\nconst result = Object.values(supplierStats).map(s => {\n  const score = ((s.on_time * 10) + (s.late_1_2_days * 5) - (s.late_3_plus * 5)) / Math.max(s.total_orders, 1);\n  return {\n    ...s,\n    score: Math.round(score * 10) / 10,\n    on_time_rate: Math.round((s.on_time / s.total_orders) * 100)\n  };\n}).sort((a, b) => b.score - a.score);\n\nreturn [{ json: { suppliers: result } }];"
+      },
+      "name": "Calculate Performance",
+      "type": "n8n-nodes-base.code",
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format report\nconst data = $input.first().json;\nconst topPerformers = data.suppliers.filter(s => s.score >= 8);\nconst needsImprovement = data.suppliers.filter(s => s.score < 6);\n\nlet message = '📊 SUPPLIER PERFORMANCE REPORT\\n\\n';\nmessage += '🏆 Top Performers:\\n';\nif (topPerformers.length > 0) {\n  topPerformers.slice(0, 3).forEach(s => {\n    message += `• ${s.name}: ${s.score}/10 (${s.on_time_rate}% on-time)\\n`;\n  });\n} else {\n  message += '• None this week\\n';\n}\n\nmessage += '\\n⚠️ Needs Improvement:\\n';\nif (needsImprovement.length > 0) {\n  needsImprovement.forEach(s => {\n    message += `• ${s.name}: ${s.score}/10 (${s.late_3_plus} late deliveries)\\n`;\n  });\n} else {\n  message += '• None this week\\n';\n}\n\nreturn [{ json: { report: message, top: topPerformers, improvement: needsImprovement } }];"
+      },
+      "name": "Format Report",
+      "type": "n8n-nodes-base.code",
+      "position": [910, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "=-1001234567890",
+        "text": "={{ $json.report }}"
+      },
+      "name": "Send Report",
+      "type": "n8n-nodes-base.telegram",
+      "position": [1130, 300]
+    }
+  ],
+  "connections": {
+    "Weekly Monday 08:00": { "main": [[{"node": "Get Completed POs", "type": "main", "index": 0}]] },
+    "Get Completed POs": { "main": [[{"node": "Calculate Performance", "type": "main", "index": 0}]] },
+    "Calculate Performance": { "main": [[{"node": "Format Report", "type": "main", "index": 0}]] },
+    "Format Report": { "main": [[{"node": "Send Report", "type": "main", "index": 0}]] }
+  },
+  "active": false,
+  "id": "wf-supplier-performance"
+}

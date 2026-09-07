@@ -1,0 +1,56 @@
+{
+  "name": "W8: Customer Feedback Request",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "delivery-feedback",
+        "responseMode": "lastNode"
+      },
+      "name": "Webhook Delivery",
+      "type": "n8n-nodes-base.webhook",
+      "position": [250, 300],
+      "webhookId": "delivery-feedback"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse delivery data\nconst data = $input.first().json;\n\nreturn [{\n  json: {\n    customer_name: data.customer_name || 'Customer',\n    customer_phone: data.customer_phone || '',\n    product_name: data.product_name || 'Your order',\n    delivery_date: data.delivery_date || new Date().toISOString().split('T')[0]\n  }\n}];"
+      },
+      "name": "Parse Data",
+      "type": "n8n-nodes-base.code",
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Wait 7 days before sending feedback request\n// This node simulates the wait\nconst data = $input.first().json;\nconst sevenDaysLater = new Date();\nsevenDaysLater.setDate(sevenDaysLater.getDate() + 7);\n\nreturn [{\n  json: {\n    ...data,\n    feedback_due_date: sevenDaysLater.toISOString().split('T')[0],\n    message: `Hi ${data.customer_name}!\\n\\nSudah seminggu produk ${data.product_name} sampai ya.\\n\\nBagaimana hasilnya? Silakan share feedback Anda:\\n- WhatsApp: +62 811-2127-464\\n- Email: cs@duanaga.co.id\\n\\nMasukan Anda sangat berarti untuk kami!`\n  }\n}];"
+      },
+      "name": "Prepare Message",
+      "type": "n8n-nodes-base.code",
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.customer_phone }}",
+        "text": "={{ $json.message }}"
+      },
+      "name": "Send Feedback Request",
+      "type": "n8n-nodes-base.telegram",
+      "position": [910, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Log feedback request sent\nconst data = $input.first().json;\nconsole.log('Feedback request sent to:', data.customer_name);\nreturn [{ json: { status: 'success', sent_to: data.customer_name } }];"
+      },
+      "name": "Log Activity",
+      "type": "n8n-nodes-base.code",
+      "position": [910, 450]
+    }
+  ],
+  "connections": {
+    "Webhook Delivery": { "main": [[{"node": "Parse Data", "type": "main", "index": 0}]] },
+    "Parse Data": { "main": [[{"node": "Prepare Message", "type": "main", "index": 0}]] },
+    "Prepare Message": { "main": [[{"node": "Send Feedback Request", "type": "main", "index": 0}, {"node": "Log Activity", "type": "main", "index": 0}]] }
+  },
+  "active": false,
+  "id": "wf-customer-feedback"
+}

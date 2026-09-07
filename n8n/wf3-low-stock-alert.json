@@ -1,0 +1,61 @@
+{
+  "name": "W3: Low Stock Alert - Jam 09:00",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{"field": "cron", "expression": "0 9 * * *"}]
+        }
+      },
+      "name": "Schedule - Daily Check",
+      "type": "n8n-nodes-base.trigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "=http://erp_duanaga_odoo:8069/xmlrpc/2/object",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "0", "value": "=\"duanaga\""},
+            {"name": "1", "value": "=2"},
+            {"name": "2", "value": "=\"admin\""},
+            {"name": "3", "value": "=\"stock.quant\""},
+            {"name": "4", "value": "=\"search_read\""},
+            {"name": "5", "value": "=[[[\"product_id.active\", \"=\", true]]]"},
+            {"name": "options", "value": "={\"fields\": [\"product_id\", \"quantity\", \"location_id\"], \"limit\": 50}"}
+          ]
+        }
+      },
+      "name": "Get Stock Levels",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [470, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Filter low stock items\nconst items = $input.all();\nconst threshold = 10; // Minimum stock\n\nlet lowStock = [];\n\nfor (const item of items) {\n  const qty = item.json.quantity || 0;\n  if (qty < threshold) {\n    lowStock.push({\n      product: item.json.product_id ? item.json.product_id[1] : 'Unknown',\n      quantity: qty,\n      location: item.json.location_id ? item.json.location_id[1] : 'Unknown'\n    });\n  }\n}\n\nif (lowStock.length > 0) {\n  return [{ json: { items: lowStock, count: lowStock.length } }];\n} else {\n  return [{ json: { items: [], count: 0, message: 'All stock levels normal' } }];\n}"
+      },
+      "name": "Filter Low Stock",
+      "type": "n8n-nodes-base.code",
+      "position": [690, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "=-1001234567890",
+        "text": "=⚠️ LOW STOCK ALERT!\\n\\n{{ $json.count }} items below minimum:\\n\\n{{ $json.items.map(i => `• ${i.product}: ${i.quantity} units`).join('\\n') }}\\n\\nSilakan buat Purchase Order!"
+      },
+      "name": "Alert Purchasing",
+      "type": "n8n-nodes-base.telegram",
+      "position": [910, 300]
+    }
+  ],
+  "connections": {
+    "Schedule - Daily Check": { "main": [[{"node": "Get Stock Levels", "type": "main", "index": 0}]] },
+    "Get Stock Levels": { "main": [[{"node": "Filter Low Stock", "type": "main", "index": 0}]] },
+    "Filter Low Stock": { "main": [[{"node": "Alert Purchasing", "type": "main", "index": 0}]] }
+  },
+  "active": false,
+  "id": "wf-low-stock-alert"
+}
