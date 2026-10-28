@@ -263,5 +263,163 @@ WH: Dua Naga Main Warehouse
 
 ---
 
-*Document Version: 1.0*
-*Last Updated: 2026-09-05*
+*Document Version: 1.1*
+*Last Updated: 2026-09-12*
+
+---
+
+## ADDON BARU: FITUR TAMBAHAN
+
+### 9. BoM SECURITY (Keamanan Formula)
+
+#### Tujuan:
+Melindungi rahasia formula produk dari staf produksi. Staf hanya melihat instruksi kerja dengan kode bahan, bukan nama bahan kimia.
+
+#### Cara Pakai:
+
+**A. Setup Material Code:**
+1. Menu: `Inventory` → `Products`
+2. Buka produk bahan baku
+3. Tab: `BoM Security`
+4. Isi:
+   - `Material Code`: Kode unik (misal: K001, B002)
+   - `Display Name Short`: Nama singkat untuk floor
+   - `Confidential Material`: Aktifkan jika bahan perlu proteksi
+
+**B. Setup Formula Security:**
+1. Menu: `Manufacturing` → `Bill of Materials`
+2. Buka BoM produk
+3. Centang `Confidential Formula`
+4. Isi `Formula Code` (misal: FRM/00001)
+
+**C. Generate Work Instructions:**
+1. Buka Manufacturing Order
+2. Tab: `Work Instructions (Floor)`
+3. Klik `Generate Instructions`
+4. Instruksi menampilkan kode bahan, bukan nama asli
+
+#### User Groups:
+| Group | Akses |
+|-------|-------|
+| BoM: Production Staff (Restricted) | Kode bahan saja |
+| BoM: R&D Admin (Full) | Nama bahan lengkap |
+| BoM: QC Staff (Result) | Hasil jadi, bukan formula |
+
+---
+
+### 10. REGULATORY & BPOM TRACKING
+
+#### Tujuan:
+Track status dokumen BPOM dan Halal. Notifikasi WA otomatis ke klien saat status berubah.
+
+#### Cara Pakai:
+
+**A. Buat Project BPOM:**
+1. Menu: `Regulatory` → `BPOM Projects`
+2. Create → Isi:
+   - Project Name: "BPOM Serum X - Client A"
+   - Client: Pilih klien
+   - Regulatory Type: BPOM Registration
+   - Products: Pilih produk terkait
+
+**B. Checklist Items:**
+1. Buka project → Tab `Checklist`
+2. Default checklist BPOM tersedia:
+   - Prepare Formula Composition
+   - Prepare Certificate of Analysis (CoA)
+   - Stability Test Report
+   - Microbial Challenge Test
+   - Submit to BPOM
+   - Receive Approval
+
+**C. Update Status:**
+1. Buka project
+2. Field `Status`: Draft → Submitted → Under Review → Approved
+3. Centang `Send WA Notification` → Notifikasi WA otomatis ke klien
+
+#### Status BPOM:
+| Status | Keterangan |
+|--------|------------|
+| Draft | Konsep dokumen |
+| Submitted | Sudah submit ke BPOM |
+| Under Review | Sedang direview BPOM |
+| Pending Info | Butuh info tambahan |
+| Approved | Disetujui |
+| Rejected | Ditolak, perlu revisi |
+
+---
+
+### 11. CONSIGNMENT / TOLL MANUFACTURING
+
+#### Tujuan:
+Track inventory milik klien (packaging/cl) dengan valuation Rp0.
+
+#### Cara Pakai:
+
+**A. Setup Consignment Location:**
+1. Menu: `Inventory` → `Configuration` → `Locations`
+2. Create → `Consignment Location`: ✓
+3. `Consignment Owner`: Pilih klien
+
+**B. Setup Consignment Product:**
+1. Menu: `Inventory` → `Products`
+2. Create/Edit product
+3. Tab `Consignment`:
+   - `Consignment`: ✓
+   - `Owner (Client)`: Pilih klien
+   - `standard_price`: Otomatis = 0
+
+**C. Receive Consignment Goods:**
+1. Menu: `Inventory` → `Operations` → `Receipts`
+2. Create → Pilih vendor (kosongkan atau klien)
+3. Destination Location: WH/Consignment/[Nama Klien]
+4. Validate
+
+**D. Filter Consignment Moves:**
+1. Menu: `Inventory` → `Reporting` → `Stock Moves`
+2. Filter: `Consignment Moves`
+
+---
+
+### 12. N8N AUTOMATION ENDPOINTS
+
+#### Webhook URLs:
+
+| Workflow | Endpoint | Fungsi |
+|----------|----------|--------|
+| Lead Capture | `http://localhost:5678/webhook/lead` | Terima lead dari website |
+
+#### Payload Format:
+```json
+{
+  "name": "Nama Klien",
+  "email": "email@klien.com",
+  "phone": "628123456789",
+  "product": "Sunscreen SPF 50",
+  "quantity": "5000 pcs",
+  "message": "Pesan inquiry"
+}
+```
+
+#### Test Command:
+```bash
+curl -X POST http://localhost:5678/webhook/lead \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Test Client", "email": "test@test.com", "phone": "628123456789"}'
+```
+
+---
+
+### 13. INSTALLED ADDONS
+
+| Addon | Fungsi |
+|-------|--------|
+| duanaga_bom_security | BoM Security & formula protection |
+| duanaga_regulatory | BPOM/Halal tracking |
+| duanaga_consignment | Toll manufacturing & consignment |
+| duanaga_qc_integration | QC KBR integration |
+| duanaga_website | Website lead capture |
+
+---
+
+*Last Updated: 2026-09-12*

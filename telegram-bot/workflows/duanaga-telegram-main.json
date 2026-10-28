@@ -1,0 +1,157 @@
+{
+  "name": "DuanagaERP - Telegram Commands",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": ["message", "edited_message"]
+      },
+      "id": "telegram-trigger",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [100, 300],
+      "webhookId": "duanaga-telegram-bot"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract data from Telegram message\nconst message = $json.message;\nconst chatId = message.chat.id;\nconst text = message.text || '';\nconst firstName = message.chat.first_name || 'User';\n\n// Parse command\nconst parts = text.trim().split(/\\s+/);\nconst command = parts[0].toLowerCase();\nconst args = parts.slice(1);\n\nreturn [{\n  chatId,\n  firstName,\n  text,\n  command,\n  args,\n  messageId: message.message_id\n}];"
+      },
+      "id": "parse",
+      "name": "Parse Command",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [300, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {"caseSensitive": false},
+          "conditions": [
+            {"columnName": "{{ $json.command }}", "operator": "equals", "value": "/start"},
+            {"columnName": "{{ $json.command }}", "operator": "equals", "value": "/help"},
+            {"columnName": "{{ $json.command }}", "operator": "equals", "value": "/stock"},
+            {"columnName": "{{ $json.command }}", "operator": "equals", "value": "/qc"},
+            {"columnName": "{{ $json.command }}", "operator": "equals", "value": "/order"},
+            {"columnName": "{{ $json.command }}", "operator": "equals", "value": "/receive"},
+            {"columnName": "{{ $json.command }}", "operator": "equals", "value": "/mostatus"},
+            {"columnName": "{{ $json.command }}", "operator": "equals", "value": "/summary"}
+          ]
+        },
+        "options": {}
+      },
+      "id": "switch-command",
+      "name": "Switch Command",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "text": "=👋 *Selamat datang di Duanaga ERP Bot!*\n\nPT Dua Naga Kosmetindo\n\n📦 *Inventory*\n/stock - Cek stock produk\n/lowstock - Low stock alert\n\n📋 *Sales*\n/order - Buat Sales Order\n/track - Track delivery\n\n🧪 *QC*\n/qc - Input hasil QC\n\n📥 *Purchase*\n/receive - Input receipt barang\n\n🏭 *Manufacturing*\n/mostatus - Status MO\n\n📊 *Info*\n/summary - Daily summary\n\nKetik /help untuk bantuan",
+        "additionalFields": {}
+      },
+      "id": "reply-start",
+      "name": "Welcome Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [700, 100]
+    },
+    {
+      "parameters": {
+        "text": "=📖 *PETUNJUK PENGGUNAAN*\n\n1. Ketik command (contoh: /stock)\n2. Ikuti instruksi bot\n3. Jawab pertanyaan dengan mengetik jawaban\n4. Klik tombol untuk pilih opsi\n\n*Command Quick Access:*\n/stock - Cek stock\n/order - Buat order\n/qc - Input QC\n/summary - Report harian\n\n*Tips:*\n• Ketik /cancel untuk batalkan\n• Response biasanya < 3 detik",
+        "additionalFields": {}
+      },
+      "id": "reply-help",
+      "name": "Help Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [700, 200]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:8069/xmlrpc/2/object",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeader",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {"name": "Content-Type", "value": "application/json"}
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "jsonrpc", "value": "2.0"},
+            {"name": "method", "value": "execute_kw"},
+            {"name": "id", "value": 1},
+            {
+              "name": "params",
+              "value": "={\"db\": \"duanaga\", \"uid\": 2, \"password\": \"admin123\", \"model\": \"product.product\", \"method\": \"search_read\", \"args\": [[\"name\", \"ilike\", \"{{ $json.args[0] || '' }}\"]], \"kwargs\": {\"fields\": [\"id\", \"name\", \"qty_available\", \"virtual_stock_at_date\", \"uom_id\"]}}"
+            }
+          ]
+        }
+      },
+      "id": "odoo-stock-query",
+      "name": "Odoo - Query Stock",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format stock response\nconst products = $input.first().json;\nconst args = products.args ? JSON.parse(products.args) : [];\nconst result = args[0] || [];\n\nif (!result || result.length === 0) {\n  return [{\n    chatId: $('Telegram Trigger').first().json.message.chat.id,\n    response: '❌ Produk tidak ditemukan. Coba ketik nama produk lain.'\n  }];\n}\n\nlet text = '📦 *STOCK REPORT*\\n\\n';\nresult.slice(0, 5).forEach(p => {\n  text += `*${p.name}*\\n`;\n  text += `• Stock: ${p.qty_available || 0} pcs\\n`;\n  text += `• Available: ${p.virtual_stock_at_date || 0} pcs\\n\\n`;\n});\n\nreturn [{\n  chatId: $('Telegram Trigger').first().json.message.chat.id,\n  response: text\n}];"
+      },
+      "id": "format-stock",
+      "name": "Format Stock Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.response }}",
+        "additionalFields": {}
+      },
+      "id": "send-stock",
+      "name": "Send Stock Response",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1100, 300]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [[{"node": "Parse Command", "type": "main", "index": 0}]]
+    },
+    "Parse Command": {
+      "main": [[{"node": "Switch Command", "type": "main", "index": 0}]]
+    },
+    "Switch Command": {
+      "main": [
+        [{"node": "Welcome Message", "type": "main", "index": 0}],
+        [{"node": "Help Message", "type": "main", "index": 0}],
+        [{"node": "Odoo - Query Stock", "type": "main", "index": 0}],
+        [{"node": "Welcome Message", "type": "main", "index": 0}],
+        [{"node": "Welcome Message", "type": "main", "index": 0}],
+        [{"node": "Welcome Message", "type": "main", "index": 0}],
+        [{"node": "Welcome Message", "type": "main", "index": 0}],
+        [{"node": "Welcome Message", "type": "main", "index": 0}]
+      ]
+    },
+    "Odoo - Query Stock": {
+      "main": [[{"node": "Format Stock Response", "type": "main", "index": 0}]]
+    },
+    "Format Stock Response": {
+      "main": [[{"node": "Send Stock Response", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": ["telegram", "duanaga", "erp"],
+  "meta": {
+    "templateCredsSetup": false,
+    "templateId": "blank"
+  }
+}

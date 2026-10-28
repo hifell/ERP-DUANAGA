@@ -63,6 +63,7 @@ class QcKbrDecision(models.Model):
     _name = "qc.kbr.decision"
     _description = "QC KBR Decision Record"
     _order = "create_date desc"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(
         string="Reference",
@@ -77,11 +78,15 @@ class QcKbrDecision(models.Model):
         required=True,
     )
     batch_id = fields.Char(
-        related="production_id.batch_code",
         string="Batch Number",
+        compute="_compute_batch_id",
         store=True,
         readonly=True,
     )
+
+    def _compute_batch_id(self):
+        for rec in self:
+            rec.batch_id = rec.production_id.name
     product_id = fields.Many2one(
         related="production_id.product_id",
         string="Product",
@@ -92,6 +97,11 @@ class QcKbrDecision(models.Model):
         related="production_id.qty_produced",
         string="Qty Produced",
         readonly=True,
+    )
+    qty_approved = fields.Float(
+        string="Qty Approved",
+        readonly=True,
+        copy=False,
     )
 
     # QC Parameters (input ke engine)
@@ -222,6 +232,11 @@ class MrpProduction(models.Model):
         copy=False,
         help="Quantity yang lulus QC",
     )
+
+    def _compute_kbr_status(self):
+        for rec in self:
+            decisions = rec.kbr_decision_ids.filtered(lambda d: d.state == "done")
+            rec.kbr_latest_status = decisions[:1].status or False
 
     def _update_from_kbr_decision(self, decision_vals: dict):
         """

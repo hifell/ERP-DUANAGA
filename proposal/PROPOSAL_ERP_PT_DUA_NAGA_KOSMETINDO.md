@@ -288,6 +288,9 @@ Sesudah: PO automated, lead time terintegrasi dengan produksi
 - **Work Orders** - Penjadwalan produksi
 - **Production Planning** - Capacity planning otomatis
 - **Consumption Tracking** - Material usage monitoring
+- **BoM Security (Keamanan Resep)** - Hak akses ketat, staf produksi hanya melihat kode bahan (bukan nama kimia asli)
+
+> **Keamanan Resep:** Di industri maklon, formula produk adalah rahasia bisnis. Sistem menyediakan layer keamanan tambahan di mana staf produksi hanya melihat instruksi kerja (misal: "Campur Bahan K001 + K002") tanpa akses ke nama bahan kimia atau persentase detail. Ini melindungi kekayaan intelektual klien.
 
 ### Benefit untuk Dua Naga:
 ```
@@ -302,11 +305,14 @@ Sesudah: BoM di sistem, production order otomatis dari SO
 - **Lot/Serial Tracking** - Batch traceability
 - **Expiration Management** - Alert material expiring
 - **Stock Valuation** - Real-time inventory value
+- **Consignment / Toll Manufacturing** - Tracking inventory milik klien (valuation Rp0)
+
+> **Toll Manufacturing:** Klien sering membawa kemasan sendiri. Sistem dapat mengakomodasi inventory dengan nilai Rp0 (barang milik klien, bukan aset pabrik) namun stok fisiknya tetap dapat di-track. Ownership tracking memastikan gudang tahu barang siapa dan lokasinya.
 
 ### Benefit untuk Dua Naga:
 ```
-Sebelum: Stock opname 2 hari, sering salah
-Sesudah: Real-time, stock opname 1 jam
+Sebelum: Packaging klien campur-aduk dengan stok pabrik
+Sesudah: Clear ownership, billing terpisah untuk jasa maklon vs material klien
 ```
 
 ## 4.6 Modul Quality Control
@@ -328,13 +334,15 @@ Sesudah: Digital record, traceability lengkap
 ### Fitur Utama:
 - **Automated Invoicing** - Invoice dari DO otomatis
 - **Payment Tracking** - AR/AP management
-- **Financial Reports** - P&L, Balance Sheet, Cash Flow
+- **Invoicing & Account Receivable/Payable** - Pencatatan tagihan dan hutang/piutang
 - **Multi-Currency** - Deal dengan client international
+
+> **Cakupan:** Modul Accounting yang included adalah **Invoicing** (penagihan) dan **AR/AP** (piutang/hutang). Laporan Keuangan formal (Laba/Rugi, Neraca, Cash Flow) merupakan fitur berbayar Odoo Enterprise. Untuk versi Community, laporan tersebut dapat di-generate melalui export Excel/CSV atau menggunakan addons pihak ketiga (OCA) dengan biaya tambahan terpisah.
 
 ### Benefit untuk Dua Naga:
 ```
 Sebelum: Laporan finance 2 minggu setelah bulan berakhir
-Sesudah: Real-time, kapan aja bisa lihat
+Sesudah: Real-time, kapan aja bisa lihat tagihan & pembayaran
 ```
 
 ## 4.8 Modul Project (R&D)
@@ -344,11 +352,15 @@ Sesudah: Real-time, kapan aja bisa lihat
 - **Trial Batch Management** - Track semua trial
 - **Document Management** - Upload formula, test report
 - **Timeline & Milestone** - Project progress visibility
+- **BPOM & Halal Tracking** - Pelacakan status dokumen registrasi
+- **WA Notification BPOM** - Notifikasi otomatis ke klien saat status BPOM berubah
+
+> **Pelacakan BPOM & Halal:** Pipeline dedicated untuk tracking dokumen registrasi produk. Saat status berubah (submitted → reviewed → approved → rejected), sistem mengirim notifikasi WhatsApp otomatis ke klien. Contoh: *"Halo, formulasi Serum X sudah lolos uji stabilitas. Dokumen saat ini sedang disubmit ke BPOM. Estimasi selesai 30 hari kerja."*
 
 ### Benefit untuk Dua Naga:
 ```
-Sebelum: Formula development tidak tertrack
-Sesudah: R&D progress visible, client bisa track development
+Sebelum: Staff riset kewalahan tangani telepon klien menanyakan status BPOM
+Sesudah: Notifikasi otomatis, staff fokus kerja, klien bahagia karena update real-time
 ```
 
 ---
@@ -927,6 +939,8 @@ Milestone: 🎯 Go-Live: End of Week 8
 ✓ Monthly Review Meetings
 ✓ SLA 99.5% uptime guarantee
 ```
+
+> **Cakupan Harga:** Harga di atas mencakup implementasi fitur standar Odoo Community Edition. Permintaan kustomisasi kode aplikasi, modul tambahan, atau integrasi di luar fitur standar akan dikenakan biaya pengembangan terpisah (hourly rate atau fixed project). Scope creep yang tidak disepakati di awal contract tidak termasuk dalam kontrak ini.
 
 ## 10.2 Biaya Berkelanjutan
 

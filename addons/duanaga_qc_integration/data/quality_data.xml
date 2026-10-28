@@ -16,8 +16,12 @@
         </field>
     </record>
 
-    <!-- Action: Production Orders with KBR -->
-    <record id="mrp.mrp_production_action" model="ir.actions.act_window">
-        <field name="context">{'show_kbr_status': 1}</field>
+    <!-- Action: Create KBR Decision (for button in Production Order) -->
+    <record id="action_create_kbr_decision" model="ir.actions.act_window">
+        <field name="name">Create KBR Decision</field>
+        <field name="res_model">qc.kbr.decision</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{}</field>
     </record>
 </odoo>
