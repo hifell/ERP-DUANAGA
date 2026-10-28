@@ -28,11 +28,33 @@ services:
     volumes:
       - ./odoo-web-data:/var/lib/odoo
       - ./addons:/mnt/extra-addons
-      - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - ./config/odoo.conf.template:/opt/duanaga/odoo.conf.template:ro
+      - ./config/docker-entrypoint.sh:/opt/duanaga/entrypoint.sh:ro
     networks:
       - erp_network
+    entrypoint: ["/bin/bash", "/opt/duanaga/entrypoint.sh"]
+    command: ["odoo"]
     environment:
-      - ODOO_MASTER_PASSWD=admin_duanaga_secure_2024
+      ODOO_MASTER_PASSWD: ${ODOO_MASTER_PASSWD:?ODOO_MASTER_PASSWD is required}
+      ODOO_DB_HOST: db
+      ODOO_DB_PORT: "5432"
+      ODOO_DB_USER: ${POSTGRES_USER:-odoo}
+      ODOO_DB_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      ODOO_LOG_LEVEL: ${ODOO_LOG_LEVEL:-info}
+      ODOO_WORKERS: ${ODOO_WORKERS:-2}
+      ODOO_MAX_CRON_THREADS: ${ODOO_MAX_CRON_THREADS:-1}
+      ODOO_PROXY_MODE: ${ODOO_PROXY_MODE:-False}
+      QC_INTEGRATION_API_KEY: ${QC_INTEGRATION_API_KEY:-}
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          python3 -c "import urllib.request,sys;
+          sys.exit(0 if urllib.request.urlopen('http://localhost:8069/web/login',timeout=5).status==200 else 1)"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
 
   n8n:
     image: n8nio/n8n:latest
@@ -45,12 +67,32 @@ services:
     networks:
       - erp_network
     environment:
-      - N8N_BASIC_AUTH_ACTIVE=true
-      - N8N_BASIC_AUTH_USER=admin
-      - N8N_BASIC_AUTH_PASSWORD=Duanaga@2024
-      - N8N_HOST=localhost
-      - N8N_PORT=5678
-      - WEBHOOK_URL=http://localhost:5678
+      N8N_BASIC_AUTH_ACTIVE: ${N8N_BASIC_AUTH_ACTIVE:-true}
+      N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER:-admin}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD:?N8N_BASIC_AUTH_PASSWORD is required}
+      N8N_HOST: ${N8N_HOST:-localhost}
+      N8N_PORT: ${N8N_PORT:-5678}
+      WEBHOOK_URL: ${WEBHOOK_URL:-http://localhost:5678}
+      GENERIC_TIMEZONE: ${TZ:-Asia/Jakarta}
+      TZ: ${TZ:-Asia/Jakarta}
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_VERSION_NOTIFICATIONS_ENABLED: "false"
+      N8N_TEMPLATES_ENABLED: "false"
+      ODOO_URL: http://erp_duanaga_odoo:8069
+      ODOO_DB: ${ODOO_DB:-duanaga}
+      ODOO_USER: ${ODOO_N8N_USER:-n8n@duanaga.co.id}
+      ODOO_PASSWORD: ${ODOO_N8N_PASSWORD:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_ALLOWED_USER_IDS: ${TELEGRAM_ALLOWED_USER_IDS:-}
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          node -e "require('http').get('http://localhost:5678/healthz',r=>process.exit(r.statusCode<400?0:1)).on('error',()=>process.exit(1))"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   qc_api:
     build:
@@ -58,10 +100,13 @@ services:
       dockerfile: Dockerfile
     container_name: erp_duanaga_qc_api
     restart: unless-stopped
+    # Loopback only: this engine has no auth and must not be reachable from the LAN.
     ports:
-      - "8003:8000"
+      - "127.0.0.1:8003:8000"
     networks:
       - erp_network
+    environment:
+      QC_API_KEY: ${QC_API_KEY:-}
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8000/health || exit 1"]
       interval: 15s

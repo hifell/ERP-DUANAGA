@@ -1,22 +1,19 @@
 {
     "name": "Dua Naga Website Integration",
-    "version": "1.0",
+    "version": "17.0.1.0.0",
     "category": "Sales",
     "summary": "Lead capture from website for PT Dua Naga Kosmetindo",
     "description": """
         Custom module untuk capture leads dari website duanaga.co.id
-        - Lead capture endpoint
-        - Auto-assign to sales team
-        - Notifikasi ke WhatsApp via n8n
+        - Lead capture endpoint (HTML form dan JSON API)
+        - Auto-assign ke sales team
+        - Validasi input di backend, bukan hanya di UI
     """,
     "author": "PT Dua Naga Kosmetindo",
     "website": "https://duanaga.co.id",
     "license": "LGPL-3",
     "depends": ["crm", "sale"],
-    "data": [
-        "security/ir.model.access.csv",
-        "views/lead_template.xml",
-    ],
+    "data": [],
     "installable": True,
     "application": True,
 }

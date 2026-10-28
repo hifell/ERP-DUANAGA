@@ -4,8 +4,12 @@ Wizard: Create QC KBR Decision dari Production Order
 Industri flow: QC Analyst input hasil lab di sini
 """
 
-from odoo import models, fields, api, _
+import logging
+
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class CreateKbrDecisionWizard(models.TransientModel):
@@ -49,45 +53,66 @@ class CreateKbrDecisionWizard(models.TransientModel):
         help="Hasil pengukuran viskositas dari Quality Control lab",
     )
 
-    # QC Spec boundaries (bisa di-configure per product)
-    ph_min = fields.Float(default=5.5, string="Spec pH Min")
-    ph_max = fields.Float(default=6.5, string="Spec pH Max")
-    visc_min = fields.Float(default=1.05, string="Spec Visc Min")
-    visc_max = fields.Float(default=1.10, string="Spec Visc Max")
+    # QC Spec boundaries — ditampilkan read-only, sumbernya spesifikasi produk.
+    ph_min = fields.Float(
+        related="product_id.qc_ph_min",
+        string="Spec pH Min",
+        readonly=True,
+    )
+    ph_max = fields.Float(
+        related="product_id.qc_ph_max",
+        string="Spec pH Max",
+        readonly=True,
+    )
+    visc_min = fields.Float(
+        related="product_id.qc_visc_min",
+        string="Spec Visc Min",
+        readonly=True,
+    )
+    visc_max = fields.Float(
+        related="product_id.qc_visc_max",
+        string="Spec Visc Max",
+        readonly=True,
+    )
+    spec_version = fields.Char(
+        related="product_id.qc_spec_version",
+        string="Spec Version",
+        readonly=True,
+    )
 
+    @api.model
     def _default_production_id(self):
         """Ambil production_id dari context (tombol di form production order)."""
         active_id = self.env.context.get("active_id")
-        return active_id
+        if not active_id:
+            return self.env["mrp.production"]
+        return self.env["mrp.production"].browse(active_id).exists()
 
     def create_and_submit(self):
-        """
-        Buat KBR Decision record, langsung submit ke inference engine.
-        Pattern industri: wizard → create record → call engine → return result.
-        """
+        """Buat KBR Decision record lalu submit ke inference engine."""
         self.ensure_one()
 
-        # 1. Create decision record
+        if not self.production_id:
+            raise UserError(_("Production Order tidak ditemukan."))
+
         decision = self.env["qc.kbr.decision"].create({
             "production_id": self.production_id.id,
             "ph_level": self.ph_level,
             "viscosity": self.viscosity,
-            "ph_min": self.ph_min,
-            "ph_max": self.ph_max,
-            "visc_min": self.visc_min,
-            "visc_max": self.visc_max,
             "state": "submitted",
         })
 
-        # 2. Submit ke inference engine
         try:
             decision.submit_to_kbr()
-        except Exception as e:
-            # Error sudah di-log di model, tetap return wizard result
-            _logger = self.env.registry["qc.kbr.decision"].__logger__
-            _logger.warning(f"KBR submission failed: {e}")
+        except UserError:
+            raise
+        except Exception as exc:  # pragma: no cover - defensive
+            _logger.exception("KBR submission gagal untuk %s", decision.name)
+            raise UserError(
+                _("Gagal mengirim data ke inference engine. "
+                  "Periksa log server untuk detail.")
+            ) from exc
 
-        # 3. Return view ke decision record
         return {
             "type": "ir.actions.act_window",
             "res_model": "qc.kbr.decision",

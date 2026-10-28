@@ -1,0 +1,88 @@
+{
+  "name": "DuanagaERP - Telegram Bot Base",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": ["message", "edited_message", "callback_query"]
+      },
+      "id": "telegram-trigger",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [250, 300],
+      "credentials": {
+        "telegramApi": {
+          "__rl6w4": "telegram-bot-credentials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "jsCode": "// Parse incoming message\nconst chatId = $json.message?.chat?.id;\nconst text = $json.message?.text || '';\nconst firstName = $json.message?.chat?.first_name || 'User';\n\n// Store for next nodes\nreturn [{chatId, text, firstName, command: text.split(' ')[0].toLowerCase()}];"
+        }
+      },
+      "id": "parse-message",
+      "name": "Parse Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "command-start",
+              "leftValue": "={{ $json.command }}",
+              "rightValue": "/start",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "options": {}
+        },
+        "options": {}
+      },
+      "id": "if-start",
+      "name": "If /start",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [750, 150]
+    },
+    {
+      "parameters": {
+        "text": "=👋 Selamat datang di Duanaga ERP Bot!\n\nPT Dua Naga Kosmetindo\n\nCommand yang tersedia:\n\n📦 /stock - Cek stock\n📋 /order - Buat Order\n🧪 /qc - Input QC\n📥 /receive - Terima Barang\n🏭 /mostatus - Status Produksi\n📊 /summary - Ringkasan Harian\n\nKetik /help untuk bantuan",
+        "replyToMessageId": "={{ $json.message?.message_id }}",
+        "chatId": "={{ $json.chatId }}",
+        "additionalFields": {}
+      },
+      "id": "reply-start",
+      "name": "Reply Welcome",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1000, 50]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [[{"node": "Parse Message", "type": "main", "index": 0}]]
+    },
+    "Parse Message": {
+      "main": [[{"node": "If /start", "type": "main", "index": 0}]]
+    },
+    "If /start": {
+      "main": [[{"node": "Reply Welcome", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

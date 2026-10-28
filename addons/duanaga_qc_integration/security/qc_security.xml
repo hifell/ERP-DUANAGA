@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- QC Analyst: boleh membuat dan melihat keputusan QC, tidak boleh menghapus. -->
+        <record id="group_qc_user" model="res.groups">
+            <field name="name">QC: Analyst</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <!-- QC Manager: chemists Manager + izin melepas batch. -->
+        <record id="group_qc_manager" model="res.groups">
+            <field name="name">QC: Manager</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="implied_ids" eval="[(4, ref('group_qc_user'))]"/>
+        </record>
+
+        <record id="qc_kbr_decision_company_rule" model="ir.rule">
+            <field name="name">QC decisions: multi-company</field>
+            <field name="model_id" ref="model_qc_kbr_decision"/>
+            <field name="global" eval="True"/>
+            <field
+                name="domain_force"
+                eval="['|', ('production_id.company_id', '=', False), ('production_id.company_id', 'in', company_ids)]"
+            />
+        </record>
+
+    </data>
+</odoo>

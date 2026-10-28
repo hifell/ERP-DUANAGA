@@ -1,0 +1,325 @@
+{
+  "name": "BPOM Status WA Notification",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      },
+      "id": "bpom-daily-check",
+      "name": "Schedule - Daily Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://erp_duanaga_odoo:8069/jsonrpc",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": []
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": []
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "jsonrpc",
+              "value": "2.0"
+            },
+            {
+              "name": "method",
+              "value": "call"
+            },
+            {
+              "name": "params",
+              "value": "{\"service\": \"object\", \"method\": \"execute\", \"args\": [\"{{$env.DB_NAME}}\", {{$env.UID}}, \"{{$env.DB_PASSWORD}}\", \"project.project\", \"search_read\", {\"domain\": [[\"regulatory_state\", \"in\", [\"under_review\", \"pending_info\", \"approved\", \"rejected\"]]], \"fields\": [\"name\", \"client_id\", \"regulatory_type\", \"regulatory_state\", \"product_ids\"]}]}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "odooread-bpom",
+      "name": "Odoo - Read BPOM Projects",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Extract BPOM projects from Odoo response\nconst data = $input.first().json;\nconst projects = data.result || [];\n\n// Filter projects with state changes\nconst changedProjects = projects.filter(p => {\n  // Check if status changed today (logic depends on Odoo tracking)\n  return p.regulatory_state;\n});\n\nreturn changedProjects.map(p => ({\n  json: {\n    project_id: p.id,\n    project_name: p.name,\n    client_id: p.client_id?.[0],\n    client_name: p.client_id?.[1] || 'Unknown',\n    regulatory_type: p.regulatory_type,\n    regulatory_state: p.regulatory_state,\n    products: p.product_ids || []\n  }\n}));"
+      },
+      "id": "filter-changes",
+      "name": "Filter Changed Projects",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [540, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "state-condition",
+              "leftValue": "{{ $json.regulatory_state }}",
+              "rightValue": "approved",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-approved",
+      "name": "If Approved",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [760, 200]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate WA message for BPOM approved\nconst project = $input.first().json;\n\nconst productNames = project.products.join(', ') || 'produk';\n\nconst message = `🎉 *Selamat!*\n\nFormulasi *${project.project_name}* (${productNames}) telah *DISETUJUI* oleh BPOM.\n\n📋 *Detail:*\n• No. Registrasi: [Akan diisi]\n• Masa berlaku: [Akan diisi]\n\nSilakan hubungi tim kami untuk langkah selanjutnya.\n\nTerima kasih atas kepercayaan Anda! 🙏`;\n\nreturn { json: { message, project } };"
+      },
+      "id": "approved-message",
+      "name": "Approved Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [980, 100]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate WA message for BPOM submitted\nconst project = $input.first().json;\n\nconst productNames = project.products.join(', ') || 'produk';\n\nconst message = `📝 *Update Status BPOM*\n\nFormulasi *${project.project_name}* (${productNames}) telah *DISUBMIT* ke BPOM.\n\n⏰ *Estimasi:*\nProses persetujuan BPOM biasanya membutuhkan 30-60 hari kerja.\n\nKami akan mengupdate Anda begitu ada perkembangan.\n\nTerima kasih! 🙏`;\n\nreturn { json: { message, project } };"
+      },
+      "id": "submitted-message",
+      "name": "Submitted Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [980, 400]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate WA message for pending info\nconst project = $input.first().json;\n\nconst productNames = project.products.join(', ') || 'produk';\n\nconst message = `⚠️ *Action Required*\n\nFormulasi *${project.project_name}* memerlukan *informasi tambahan* dari BPOM.\n\nTim kami sedang memproses dan akan segera menghubungi Anda.\n\nMohon bersabar ya! 🙏`;\n\nreturn { json: { message, project } };"
+      },
+      "id": "pending-message",
+      "name": "Pending Info Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1200, 200]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate WA message for rejected\nconst project = $input.first().json;\n\nconst productNames = project.products.join(', ') || 'produk';\n\nconst message = `❌ *Update Status BPOM*\n\nMohon maaf, formulasi *${project.project_name}* memerlukan *revisi* sebelum bisa disetujui.\n\nTim kami akan segera menghubungi Anda untuk membahas langkah selanjutnya.\n\nKami tetap berkomitmen membantu Anda! 💪`;\n\nreturn { json: { message, project } };"
+      },
+      "id": "rejected-message",
+      "name": "Rejected Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1200, 400]
+    },
+    {
+      "parameters": {
+        "url": "http://evolution-api:8080/message/sendText/duanaga_bautomate",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "apikey",
+              "value": "duanaga_evo_key_2024"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "{{ $json.project.client_id }}"
+            },
+            {
+              "name": "text",
+              "value": "{{ $json.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "send-wa",
+      "name": "Send WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1400, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://erp_duanaga_odoo:8069/jsonrpc",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "jsonrpc",
+              "value": "2.0"
+            },
+            {
+              "name": "method",
+              "value": "call"
+            },
+            {
+              "name": "params",
+              "value": "{\"service\": \"object\", \"method\": \"execute\", \"args\": [\"{{$env.DB_NAME}}\", {{$env.UID}}, \"{{$env.DB_PASSWORD}}\", \"project.project\", \"write\", [{{ $json.project.project_id }}, {\"wa_notification_sent\": true}]]}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "odoo-mark-sent",
+      "name": "Odoo - Mark WA Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1600, 300]
+    }
+  ],
+  "connections": {
+    "Schedule - Daily Check": {
+      "main": [
+        [
+          {
+            "node": "Odoo - Read BPOM Projects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Odoo - Read BPOM Projects": {
+      "main": [
+        [
+          {
+            "node": "Filter Changed Projects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Changed Projects": {
+      "main": [
+        [
+          {
+            "node": "If Approved",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Approved": {
+      "main": [
+        [
+          {
+            "node": "Approved Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Submitted Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approved Message": {
+      "main": [
+        [
+          {
+            "node": "Pending Info Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Submitted Message": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pending Info Message": {
+      "main": [
+        [
+          {
+            "node": "Rejected Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rejected Message": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Odoo - Mark WA Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "timeout": 300
+  },
+  "staticData": null,
+  "tags": ["bpom", "whatsapp", "automation", "regulatory"],
+  "metaData": {
+    "templateCredsSetup": false,
+    "templateId": "bpom-wa-notification"
+  }
+}

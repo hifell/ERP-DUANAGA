@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_form_reg" model="ir.ui.view">
+        <field name="name">project.project.form.regulatory</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="regulatory_type"/>
+                <field name="regulatory_state"/>
+                <field name="submission_date"/>
+                <field name="estimated_approval_date"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

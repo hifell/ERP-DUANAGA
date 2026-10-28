@@ -1,0 +1,39 @@
+# ── Secrets ──────────────────────────────────────────────────────────────
+.env
+.env.local
+*.pem
+*.key
+
+# ── Runtime data (containers) ────────────────────────────────────────────
+postgres-data/
+odoo-web-data/
+n8n-data/
+odoo-data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+
+# ── Logs ─────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Python ───────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# ── Secrets / runtime per-tool ───────────────────────────────────────────
+telegram-bot/.env
+.claude/settings.local.json
+
+# ── Editor / OS ─────────────────────────────────────────────────────────
+.DS_Store
+*.swp
+.idea/
+.vscode/

@@ -1,7 +1,16 @@
-from odoo import models, api
+# -*- coding: utf-8 -*-
+"""Lead capture dari website duanaga.co.id."""
+
 import logging
+import re
+
+from odoo import api, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
+
+EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+MAX_FIELD_LENGTH = 255
 
 
 class WebsiteLead(models.Model):
@@ -9,49 +18,39 @@ class WebsiteLead(models.Model):
 
     @api.model
     def create_lead_from_website(self, data):
-        """Create lead from website form submission"""
+        """Buat lead dari form website.
+
+        Dipanggil dari controller dengan `sudo()`, jadi user website tidak
+        butuh hak akses Odoo. Validasi input tetap dilakukan di sini supaya
+        data yang masuk ke CRM bersih.
+        """
+        name = (data.get("name") or "").strip()[:MAX_FIELD_LENGTH]
+        email = (data.get("email") or "").strip()[:MAX_FIELD_LENGTH]
+        if not name:
+            raise ValidationError("Name is required.")
+        if not email or not EMAIL_RE.match(email):
+            raise ValidationError("A valid email address is required.")
+
         vals = {
-            "name": data.get("name", "Website Lead"),
-            "contact_name": data.get("contact_name", ""),
-            "email_from": data.get("email", ""),
-            "phone": data.get("phone", ""),
-            "description": data.get("message", ""),
+            "name": name,
+            "contact_name": (data.get("contact_name") or name)[:MAX_FIELD_LENGTH],
+            "email_from": email,
+            "phone": (data.get("phone") or "")[:MAX_FIELD_LENGTH],
+            "description": (data.get("message") or "")[:2000],
             "type": "lead",
-            "source_id": self.env.ref("crm_website.crm_source_website").id if False else False,
-            "team_id": self.env.ref("sales_team.team_sales_department").id if False else False,
         }
 
+        source = self.env.ref(
+            "crm_website.crm_source_website", raise_if_not_found=False
+        )
+        if source:
+            vals["source_id"] = source.id
+        team = self.env.ref(
+            "sales_team.team_sales_department", raise_if_not_found=False
+        )
+        if team:
+            vals["team_id"] = team.id
+
         lead = self.create(vals)
-        _logger.info(f"Lead created from website: {lead.id} - {lead.name}")
-
-        # Trigger webhook to n8n for notification
-        self._notify_n8n(lead)
-
+        _logger.info("Lead created from website: %s", lead.id)
         return lead.id
-
-    def _notify_n8n(self, lead):
-        """Send notification to n8n for WhatsApp alert"""
-        import urllib.request
-        import json
-
-        try:
-            webhook_url = "http://duanaga_n8n:5678/webhook/lead-notification"
-            data = {
-                "lead_id": lead.id,
-                "name": lead.name,
-                "contact_name": lead.contact_name,
-                "email": lead.email_from,
-                "phone": lead.phone,
-                "message": lead.description,
-            }
-
-            req = urllib.request.Request(
-                webhook_url,
-                data=json.dumps(data).encode("utf-8"),
-                headers={"Content-Type": "application/json"},
-                method="POST"
-            )
-            with urllib.request.urlopen(req, timeout=10):
-                _logger.info(f"n8n notification sent for lead {lead.id}")
-        except Exception as e:
-            _logger.warning(f"Failed to notify n8n: {e}")
